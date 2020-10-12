@@ -21,6 +21,8 @@ let Accounts = new mongoose.Schema({
     }
 });
 
+let Acc = mongoose.model("Acc",Accounts);
+
 app.listen(80,"127.0.0.1",(req,res)=> {
     console.log("THE SERVER IS LISTENING!!");
 });
