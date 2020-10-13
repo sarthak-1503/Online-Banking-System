@@ -2,14 +2,17 @@ let express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
     app = express();
+
 const port = 80;
 
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+
 mongoose.connect("mongodb://localhost/obsdb", {useNewUrlParser: true , useUnifiedTopology:true});
 
 let AccountsSchema = new mongoose.Schema({
     name: String,
+    gender: String,
     address: String,
     Mobileno1: Number,
     Mobileno2: Number,
@@ -21,12 +24,13 @@ let AccountsSchema = new mongoose.Schema({
     transactions: {
         amount: Number,
         typeOftransac: String,
-        date: Date
+        dateANDtime: Date
     }
 });
 
-var Accounts = mongoose.model("Accounts",AccountsSchema);
 
+
+let Accounts = mongoose.model("Accounts",AccountsSchema);
 // Accounts.create(
 //     { name: "japnit"},
 //     function(err,account){
@@ -41,6 +45,19 @@ var Accounts = mongoose.model("Accounts",AccountsSchema);
 
 app.get("/",function(req,res){
      res.render('home');
+
+
+
+app.get("/login",(req,res)=> {
+    res.render("login");
+});
+
+app.get("/personaldetails",(req,res)=> {
+    res.render("personaldetails");
+});
+
+app.get("/transaction",(req,res)=> {
+    res.render("transaction",{Acc : Acc});
 });
 
 app.get("/create_acc",function(req,res){

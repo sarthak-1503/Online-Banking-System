@@ -1,17 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="transaction.js"></script>
-    <title>Online Transactions</title>
-</head>
-<body>
+<%- include("partials/header") %>
+
     <ul>
-        <li><a href="transaction.html">Make Transaction</a></li>
-        <li><a href="personaldetails.html">View Account Details</a></li>
-        <li><a href="personaldetails.html">View Personal Details</a></li>
-        <li><a href="transaction.html">View Transaction History</a></li>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/transaction">Make Transaction</a></li>
+        <li><a href="/personaldetails">View Account Details</a></li>
+        <li><a href="/personaldetails">View Personal Details</a></li>
+        <li><a href="/transaction"  id="transac">View Transaction History</a></li>
+        <li><a href="/login">Logout</a></li>
     </ul>
-</body>
-</html>
+
+    <% transaction = document.querySelector("#transac");
+        transaction.eventListener("onclick",function() { %>
+                <table>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Amount</th>
+                        <th>Type of Transaction</th>
+                        <th>Date and Time</th>
+                    </tr>
+
+                    <% var c=0; %>
+                    <% Accounts.transactions.forEach(record) { 
+                        c=c+1; %>
+                        <tr>
+                            <td><%= c %></td>
+                            <td><%= record.amount %></td>
+                            <td><%= record.typeOftransac %></td>
+                            <td><%= record.dateANDtime %></td>
+                        </tr>
+                    <% } %>
+                </table>      
+    <%  }); %>
+    
+<%- include("partials/footer") %>
