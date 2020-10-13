@@ -3,11 +3,13 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     app = express();
 
-app.set("view engine","ejs");
-bodyParser.urlencoded({extended: true});
-app.connect("mongodb://localhost/obsdb");
+const port = 80;
 
-let Accounts = new mongoose.Schema({
+app.set("view engine","ejs");
+app.use(bodyParser.urlencoded({extended: true}));
+mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser:true,useUnifiedTopology:true}); 
+
+let AccountsSchema = new mongoose.Schema({
     name: String,
     gender: String,
     address: String,
@@ -22,18 +24,10 @@ let Accounts = new mongoose.Schema({
     }
 });
 
-let Acc = mongoose.model("Acc",Accounts);
-
-app.get("/",(req,res)=> {
-    res.render("home");
-});
+let Accounts = mongoose.model("Accounts",AccountsSchema);
 
 app.get("/login",(req,res)=> {
     res.render("login");
-});
-
-app.get("/openaccount",(req,res)=> {
-    res.render("openaccount");
 });
 
 app.get("/personaldetails",(req,res)=> {
@@ -44,6 +38,6 @@ app.get("/transaction",(req,res)=> {
     res.render("transaction",{Acc : Acc});
 });
 
-app.listen(80,"127.0.0.1",(req,res)=> {
+app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
 });
