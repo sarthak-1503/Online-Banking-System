@@ -9,6 +9,7 @@ app.connect("mongodb://localhost/obsdb");
 
 let Accounts = new mongoose.Schema({
     name: String,
+    gender: String,
     address: String,
     contact: Number,
     email: String,
@@ -17,7 +18,7 @@ let Accounts = new mongoose.Schema({
     transactions: {
         amount: Number,
         typeOftransac: String,
-        date: Date
+        dateANDtime: Date
     }
 });
 
@@ -40,7 +41,7 @@ app.get("/personaldetails",(req,res)=> {
 });
 
 app.get("/transaction",(req,res)=> {
-    res.render("transaction");
+    res.render("transaction",{Acc : Acc});
 });
 
 app.listen(80,"127.0.0.1",(req,res)=> {

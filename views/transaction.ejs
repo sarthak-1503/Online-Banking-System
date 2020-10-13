@@ -1,13 +1,36 @@
 <%- include("partials/header") %>
 
     <ul>
-        <li><a href="/transaction.ejs">Make Transaction</a></li>
-        <li><a href="/personaldetails.ejs">View Account Details</a></li>
-        <li><a href="/personaldetails.ejs">View Personal Details</a></li>
-        <li><a href="/transaction.ejs">View Transaction History</a></li>
-        <li><a href="/login.ejs">Logout</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/openaccount">Create a new account</a></li>
+        <li><a href="/transaction">Make Transaction</a></li>
+        <li><a href="/personaldetails">View Account Details</a></li>
+        <li><a href="/personaldetails">View Personal Details</a></li>
+        <li><a href="/transaction"  id="transac">View Transaction History</a></li>
+        <li><a href="/login">Logout</a></li>
     </ul>
 
+    <% transaction = document.querySelector("#transac");
+        transaction.eventListener("onclick",()=> { %>
+                <table>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Amount</th>
+                        <th>Type of Transaction</th>
+                        <th>Date and Time</th>
+                    </tr>
+                    
+                    <% var c=0; %>
+                    <% Acc.transactions.forEach(record) { 
+                        c=c+1; %>
+                        <tr>
+                            <td><%= c %></td>
+                            <td><%= record.amount %></td>
+                            <td><%= record.typeOftransac %></td>
+                            <td><%= record.dateANDtime %></td>
+                        </tr>
+                    <% } %>
+                </table>      
+    <%  }); %>
     
-
 <%- include("partials/footer") %>
