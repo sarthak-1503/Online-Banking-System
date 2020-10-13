@@ -1,1 +1,17 @@
+<%- include("partials/header") %>
 
+    <ul>
+        <li><a href="/home.ejs">Home</a></li>
+        <li>Facility
+            <!-- Following to be put inside dropdown in a navbar under "Facility" section -->
+            <ul>
+                <li><a href="/openaccount.ejs">Open New Account</a></li>
+                <li><a href="/transaction.ejs">Make Transaction</a></li> <!-- If the user is not logged in and clicks the "make transaction" option, then redirect him to login page -->
+            </ul>
+        </li>
+        <li><a href="/personaldetails.ejs">View Personal Details</a></li>
+        <li><a href="/transaction.ejs">View Transaction History</a></li>
+        <li><a href="/login.ejs">Logout</a></li>
+    </ul>
+
+<%- include("partials/footer") %>
