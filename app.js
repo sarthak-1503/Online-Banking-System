@@ -2,15 +2,19 @@ let express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
     app = express();
+const port = 80;
 
 app.set("view engine","ejs");
-bodyParser.urlencoded({extended: true});
-app.connect("mongodb://localhost/obsdb");
+app.use(bodyParser.urlencoded({extended: true}));
+mongoose.connect("mongodb://localhost/obsdb", {useNewUrlParser: true , useUnifiedTopology:true});
 
-let Accounts = new mongoose.Schema({
+let AccountsSchema = new mongoose.Schema({
     name: String,
     address: String,
-    contact: Number,
+    Mobileno1: Number,
+    Mobileno2: Number,
+    Phoneno: Number,
+    gender: String,
     email: String,
     account_no: Number,
     current_balance: Number,
@@ -21,8 +25,53 @@ let Accounts = new mongoose.Schema({
     }
 });
 
-let Acc = mongoose.model("Acc",Accounts);
+var Accounts = mongoose.model("Accounts",AccountsSchema);
 
-app.listen(80,"127.0.0.1",(req,res)=> {
+// Accounts.create(
+//     { name: "japnit"},
+//     function(err,account){
+//         if(err){
+//             console.log(err);
+//         }
+//         else{
+//             console.log("Account Created");
+//             console.log(account);
+//         }
+//     });
+
+app.get("/",function(req,res){
+     res.render('home');
+});
+
+app.get("/create_acc",function(req,res){
+    res.render('openaccount');
+});
+
+app.post("/create_acc",function(req,res){
+     var name =  req.body.name;
+     var address =  req.body.address;
+     var email = req.body.email;
+     var gender = req.body.gender;
+     var Mobileno1 = req.body.Mobileno1;
+     var Mobileno2 = req.body.Mobileno2;
+     var Phoneno = req.body.Phoneno;
+     var details = {name:name,address:address,
+                    email:email,gender:gender,
+                    Mobileno1:Mobileno1,Mobileno2:Mobileno2,
+                    Phoneno:Phoneno}
+
+     Accounts.create(details,function(err,account_created){
+         if(err)
+         {
+             console.log(err);
+         }
+         else{
+             console.log('Account Created');
+             res.redirect('/');
+         }
+     })
+});
+
+app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
 });

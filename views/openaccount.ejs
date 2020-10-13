@@ -1,1 +1,53 @@
+<style>
+   .contact::-webkit-outer-spin-button,
+   .contact::-webkit-inner-spin-button {
+               -webkit-appearance: none;
+                margin: 0;
+        }
+</style>
 
+<form onsubmit="return myfunc()" action="/create_acc" method="POST">
+    <div>
+        <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Name" name="name">
+    </div>
+    <div>
+        <label for="address">Residential Address</label>
+      <input type="text" id="address" placeholder="Residential Address" name="address">
+    </div>  
+    <div>
+        <label for="email">Email Id</label>
+      <input type="email" id="email" placeholder="Email Id" name="email">
+    </div>     
+    <div>
+      <input type="radio" id="male" name="gender" value="male">
+      <label for="male">Male</label>
+      <input type="radio" id="female" name="gender" value="male">
+      <label for="female">Female</label>
+      <input type="radio" id="other" name="gender" value="male">
+      <label for="other">Other</label>
+    </div>
+    <div>
+      <label for="contactm1">Mobile No.</label>
+      <input type="tel" id="contactm1" class="contact" pattern="[+]{1}[0-9]{11,14}" placeholder="Mobile No." name="Mobileno1">
+    </div>
+    <div>  
+      <label for="contactm2">Mobile No.</label>
+      <input type="tel" id="contactm2"  class="contact" pattern="[+]{1}[0-9]{11,14}" placeholder="Other Mobile No." name="Mobileno2">
+    </div>
+    <div>  
+      <label for="contactp">Phone No.</label>
+      <input type="tel" id="contactp" class="contact" pattern="[+]{1}[0-9]{11,14}" placeholder="Phone No." name="Phoneno">
+    </div>
+    <div>  
+      <button>Submit</button>
+    </div>
+</form>
+
+<script>
+    function myfunc(){
+        document.querySelector('.contactm1').value;
+    }
+    
+
+</script>
