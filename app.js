@@ -61,7 +61,7 @@ app.get("/personaldetails",(req,res)=> {
 });
 
 app.get("/transaction",(req,res)=> {
-    res.render("transaction",{Accounts : Accounts});
+    res.render("transaction",{Accounts:Accounts});
 });
 
 app.get("/create_acc",(req,res)=> {
