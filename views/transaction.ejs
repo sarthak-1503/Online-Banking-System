@@ -18,8 +18,8 @@
             <th>Date and Time</th>
         </tr>
 
-        <% var c=0 %>
-        <% Accounts["transactions"].forEach(record) { 
+        <% var c=0; 
+        Accounts.transactions.forEach(record) { 
             c=c+1; %>
             <tr>
                 <td><%= c %></td>

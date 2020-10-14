@@ -32,7 +32,11 @@ let AccountsSchema = new mongoose.Schema({
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
 // Accounts.create(
-//     { name: "japnit"},
+//     { name: "japnit", transactions: {
+//         amount: 15000,
+//         typeOftransac: "deposit",
+//         dateANDtime: Date.now()
+//     }},
 //     function(err,account){
 //         if(err){
 //             console.log(err);
@@ -89,6 +93,6 @@ app.post("/create_acc",(req,res)=> {
      })
 });
 
-app.listen(port,'127.0.0.1',()=> {
+app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
 });
