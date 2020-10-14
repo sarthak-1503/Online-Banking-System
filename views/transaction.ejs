@@ -10,27 +10,25 @@
         <li><a href="/login">Logout</a></li>
     </ul>
 
-    <% transaction = document.querySelector("#transac");
-        transaction.eventListener("onclick",function() { %>
-                <table>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>Amount</th>
-                        <th>Type of Transaction</th>
-                        <th>Date and Time</th>
-                    </tr>
+    <table>
+        <tr>
+            <th>S.No.</th>
+            <th>Amount</th>
+            <th>Type of Transaction</th>
+            <th>Date and Time</th>
+        </tr>
 
-                    <% var c=0; %>
-                    <% Accounts.transactions.forEach(record) { 
-                        c=c+1; %>
-                        <tr>
-                            <td><%= c %></td>
-                            <td><%= record.amount %></td>
-                            <td><%= record.typeOftransac %></td>
-                            <td><%= record.dateANDtime %></td>
-                        </tr>
-                    <% } %>
-                </table>      
+        <% var c=0 %>
+        <% Accounts["transactions"].forEach(record) { 
+            c=c+1; %>
+            <tr>
+                <td><%= c %></td>
+                <td><%= record.amount %></td>
+                <td><%= record.typeOftransac %></td>
+                <td><%= record.dateANDtime %></td>
+            </tr>
+        <% } %>
+    </table>      
     <%  }); %>
     
 <%- include("partials/footer") %>

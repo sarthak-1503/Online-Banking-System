@@ -1,1 +1,29 @@
+<%- include("partials/header") %>
 
+<form action="/transaction" method="GET">
+    <div>
+        <label for="AccountNo">Account No.</label>
+    </div>
+    <input type="text" name="AccountNo" maxlength="15" size="15" placeholder="15-digit Account No." required>
+
+    <div>
+        <label for="Pass">Password</label>
+    </div>
+    <input type="password" name="Pass" minlength="8" maxlength="16" size="16" required>
+    
+    <div>
+        <label for="Email">Email</label>
+    </div>
+    <input type="email" name="Email" required>
+
+    <div>
+        <label for="Contact">Mobile No.</label>
+    </div>
+    <input type="text" name="Contact" required>
+
+    <div>
+        <button>Submit</button>
+    </div>
+</form>
+
+<%- include("partials/footer") %>

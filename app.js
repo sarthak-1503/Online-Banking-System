@@ -8,7 +8,9 @@ const port = 80;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
-mongoose.connect("mongodb://localhost/obsdb", {useNewUrlParser: true , useUnifiedTopology:true});
+mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
+//console.log(mongoose.connect.readyState);
+
 
 let AccountsSchema = new mongoose.Schema({
     name: String,
@@ -27,10 +29,8 @@ let AccountsSchema = new mongoose.Schema({
         dateANDtime: Date
     }
 });
-
-
-
 let Accounts = mongoose.model("Accounts",AccountsSchema);
+
 // Accounts.create(
 //     { name: "japnit"},
 //     function(err,account){
@@ -43,9 +43,9 @@ let Accounts = mongoose.model("Accounts",AccountsSchema);
 //         }
 //     });
 
-app.get("/",function(req,res){
+app.get("/",(req,res)=> {
      res.render('home');
-
+});
 
 
 app.get("/login",(req,res)=> {
@@ -57,14 +57,14 @@ app.get("/personaldetails",(req,res)=> {
 });
 
 app.get("/transaction",(req,res)=> {
-    res.render("transaction",{Acc : Acc});
+    res.render("transaction",{Accounts : Accounts});
 });
 
-app.get("/create_acc",function(req,res){
+app.get("/create_acc",(req,res)=> {
     res.render('openaccount');
 });
 
-app.post("/create_acc",function(req,res){
+app.post("/create_acc",(req,res)=> {
      var name =  req.body.name;
      var address =  req.body.address;
      var email = req.body.email;
@@ -77,7 +77,7 @@ app.post("/create_acc",function(req,res){
                     Mobileno1:Mobileno1,Mobileno2:Mobileno2,
                     Phoneno:Phoneno}
 
-     Accounts.create(details,function(err,account_created){
+     Accounts.create(details,(err,account_created)=> {
          if(err)
          {
              console.log(err);
@@ -89,6 +89,6 @@ app.post("/create_acc",function(req,res){
      })
 });
 
-app.listen(port,()=> {
+app.listen(port,'127.0.0.1',()=> {
     console.log("THE SERVER IS LISTENING!!");
 });
