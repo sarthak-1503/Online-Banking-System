@@ -1,31 +1,14 @@
 <%- include("partials/header") %>
 
-    <ul>
-        <li><a href="/">Home</a></li>
-        
-        <li><a href="/transaction">Make Transaction</a></li>
-        <li><a href="/personaldetails">View Account Details</a></li>
-        <li><a href="/personaldetails">View Personal Details</a></li>
-        <li><a href="/transaction"  id="transac">View Transaction History</a></li>
-        <li><a href="/login">Logout</a></li>
-        <table id="table"></table>
-    </ul>
-
-    <script>
-        let transaction = $("#transac");
-        let table = $("#table");
-        transaction.on("click",function() {
-            
-            
-            table.innerHTML+= "<tr><th>S.No.</th><th>Amount</th><th>Type of Transaction</th><th>Date and Time</th></tr>";
+<ul>
+    <li><a href="/">Home</a></li>
     
-            let c=0;
-            let temp = Accounts.find({});
-            for(let j=0; j<temp.length; j++) {
-                    c=c+1;
-                    table.innerHTML+="<tr>"+"<td> c </td>"+"<td> temp[j]['amount'] </td>"+"<td> temp[j]['typeOftransac'] </td>"+"<td> temp[j]['dateANDtime'] </td>"+"</tr>";
-            }
-        });
-    </script>
+    <li><a href="/transaction">Make Transaction</a></li>
+    <li><a href="/personaldetails">View Account Details</a></li>
+    <li><a href="/personaldetails">View Personal Details</a></li>
+    <li><a href="/view">View Transaction History</a></li>
+    <li><a href="/login">Logout</a></li>
+    <table id="table"></table>
+</ul>
     
 <%- include("partials/footer") %>

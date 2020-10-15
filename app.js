@@ -64,6 +64,15 @@ app.get("/transaction",(req,res)=> {
     res.render("transaction",{Accounts:Accounts});
 });
 
+app.get("/transaction",(req,res)=> {
+    res.render("transaction",{Accounts:Accounts});
+});
+
+app.get("/view",(req,res)=> {
+    res.render("view",{Accounts:Accounts});
+});
+
+
 app.get("/create_acc",(req,res)=> {
     res.render('openaccount');
 });
