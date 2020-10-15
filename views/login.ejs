@@ -1,16 +1,7 @@
 <%- include("partials/header") %>
 
-<form action="/transaction" method="GET">
-    <div>
-        <label for="AccountNo">Account No.</label>
-    </div>
-    <input type="text" name="AccountNo" pattern="[0-9]{15}" size="15" placeholder="15-digit Account No." title="Account No. must be 15-digit number." required>
+<form action="/transaction" method="POST">
 
-    <div>
-        <label for="Pass">Password</label>
-    </div>
-    <input type="password" name="Pass" minlength="8" maxlength="16" size="16" placeholder="Password" required>
-    
     <div>
         <label for="Email">Email</label>
     </div>
@@ -33,6 +24,16 @@
         <option value="+1 United States">+1 | United States</option>
     </select>
     <input type="tel" name="Contact" placeholder="Enter 10-digit mobile no." title="Mobile No. must be a 10-digit no." pattern="(7|8|9){1}\d{9}" required>
+
+    <div>
+        <label for="AccountNo">Account No.</label>
+    </div>
+    <input type="text" name="AccountNo" pattern="[0-9]{15}" size="15" placeholder="15-digit Account No." title="Account No. must be 15-digit number." required>
+
+    <div>
+        <label for="Pass">Password</label>
+    </div>
+    <input type="password" name="Pass" minlength="8" maxlength="16" size="16" placeholder="Password" required>
 
     <div>
         <button>Submit</button>

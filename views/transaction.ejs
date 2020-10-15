@@ -7,8 +7,16 @@
     <li><a href="/personaldetails">View Account Details</a></li>
     <li><a href="/personaldetails">View Personal Details</a></li>
     <li><a href="/view">View Transaction History</a></li>
-    <li><a href="/login">Logout</a></li>
+    <li><a href="/login" id="logout">Logout</a></li>
     <table id="table"></table>
 </ul>
+
+<script>
+    let logout = document.querySelector("#logout");
+
+    logout.addEventListener("click",function() {
+        signal = 0;
+    });
+</script>
     
 <%- include("partials/footer") %>

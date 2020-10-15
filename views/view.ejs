@@ -13,15 +13,18 @@
     </tr>
     
     <% let c=0;
-    let temp = Accounts.find({});
-    console.log(temp);
+    let temp = Accounts.find(details1);
+    
+    if(temp.length == 0)
+        temp = Accounts.find(details2);
+    
     for(let j=0; j<temp.length; j++) {
         c=c+1; %>
         <tr>
             <td><%= c %></td>
-            <td><%= temp[j]['name'] %></td>
-            <td><%= temp[j]['gender'] %></td>
-            <td><%= temp[j]['email'] %></td>
+            <td><%= temp[j]['amount'] %></td>
+            <td><%= temp[j]['typeOftransac'] %></td>
+            <td><%= temp[j]['datANDtime'] %></td>
         </tr>
     <% } %>    
 </table>
