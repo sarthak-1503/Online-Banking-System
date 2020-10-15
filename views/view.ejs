@@ -1,6 +1,6 @@
 <style>
     table,td,th {
-        border: 5px solid black;
+        border: 2px solid black;
     }
 </style>
 
@@ -14,13 +14,14 @@
     
     <% let c=0;
     let temp = Accounts.find({});
+    console.log(temp);
     for(let j=0; j<temp.length; j++) {
         c=c+1; %>
         <tr>
             <td><%= c %></td>
-            <td><%= temp[j]['amount'] %></td>
-            <td><%= temp[j]['typeOftransac'] %></td>
-            <td><%= temp[j]['dateANDtime'] %></td>
+            <td><%= temp[j]['name'] %></td>
+            <td><%= temp[j]['gender'] %></td>
+            <td><%= temp[j]['email'] %></td>
         </tr>
     <% } %>    
 </table>

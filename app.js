@@ -31,21 +31,21 @@ let AccountsSchema = new mongoose.Schema({
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
-// Accounts.create(
-//     { name: "japnit", transactions: {
-//         amount: 15000,
-//         typeOftransac: "deposit",
-//         dateANDtime: Date.now()
-//     }},
-//     function(err,account){
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             console.log("Account Created");
-//             console.log(account);
-//         }
-//     });
+ Accounts.create(
+     { name: "japnit", transactions: {
+         amount: 15000,
+         typeOftransac: "deposit",
+         dateANDtime: Date.now()
+     }},
+     function(err,account){
+         if(err){
+             console.log(err);
+         }
+         else{
+             console.log("Account Created");
+             console.log(account);
+         }
+     });
 
 app.get("/",(req,res)=> {
      res.render('home');
