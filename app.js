@@ -12,6 +12,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
 //console.log(mongoose.connect.readyState);
 
+let transactionSchema = new mongoose.Schema({
+    amount: Number,
+    typeOftransac: String,
+    dateANDtime : Date
+})
 
 let AccountsSchema = new mongoose.Schema({
     name: String,
@@ -24,20 +29,24 @@ let AccountsSchema = new mongoose.Schema({
     account_no: Number,
     current_balance: Number,
     password: String,
-    transactions: {
-        amount: Number,
-        typeOftransac: String,
-        dateANDtime: Date
-    }
+    transactions:[transactionSchema]
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
 //  Accounts.create(
-//      { name: "japnit", transactions: {
+//      { name: "japnit", 
+//        transactions:[ 
+//        {
 //          amount: 15000,
 //          typeOftransac: "deposit",
-//          dateANDtime: Date.now()
-//      }},
+//          dateANDtime: "2020-10-17"
+//        },
+//        {
+//          amount:23000,
+//          typeOftransac: "withdrawl",
+//          dateANDtime: "2020-10-19"
+//        }
+//      ]},
 //      function(err,account){
 //          if(err){
 //              console.log(err);
@@ -66,6 +75,7 @@ app.get("/transaction",(req,res)=> {
     if(signal == 0)
         res.render("login");
     else
+       
         res.render("transaction",{Accounts:Accounts, signal:signal});   
 });
 
@@ -89,10 +99,6 @@ app.post("/transaction",(req,res)=> {
     res.render("transaction");
 });
 
-app.get("/view",(req,res)=> {
-
-    res.render("view",{Accounts:Accounts, signal:signal, details1:details1, details2:details2});
-});
 
 
 app.get("/create_acc",(req,res)=> {
@@ -165,6 +171,20 @@ app.post("/newpass",(req,res)=> {
     console.log("Password created successfully.");
     res.redirect("/");
 });
+
+app.get("/view",(req,res)=> {
+    Accounts.find({},function(err,alltransaction){
+        if(err)
+        {
+                console.log(err);
+        }
+        else
+        {
+            res.render("view",{Account:alltransaction});
+        }    
+    })
+});
+
 
 app.listen(port,'127.0.0.1',()=> {
     console.log("THE SERVER IS LISTENING!!");

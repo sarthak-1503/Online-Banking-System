@@ -12,19 +12,23 @@
         <th>Date and Time</th>
     </tr>
     
-    <% let c=0;
-    let temp = Accounts.find(details1);
-    
-    if(temp.length == 0)
-        temp = Accounts.find(details2);
-    
-    for(let j=0; j<temp.length; j++) {
-        c=c+1; %>
-        <tr>
-            <td><%= c %></td>
-            <td><%= temp[j]['amount'] %></td>
-            <td><%= temp[j]['typeOftransac'] %></td>
-            <td><%= temp[j]['datANDtime'] %></td>
-        </tr>
-    <% } %>    
-</table>
+   
+        <%var i,j,count=0;%>
+        <%for(i=0;i<Account.length; i++){%>
+            <%for(j=0;j<Account[i].transactions.length; j++){%>
+            <tr>      
+                <td> <%count=count+1%>
+                     <%=count%></td>
+                <td><%=Account[i].transactions[j].amount%></td>
+                <td><%=Account[i].transactions[j].typeOftransac%></td>
+                <td><%var day = Account[i].transactions[j].dateANDtime.getDate()%>
+                    <%var month = Account[i].transactions[j].dateANDtime.getMonth()%>
+                    <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
+                    <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
+                    <%var hour = Account[i].transactions[j].dateANDtime.getHours()%>
+                    <%var minute = Account[i].transactions[j].dateANDtime.getMinutes()%>
+                    <%var second = Account[i].transactions[j].dateANDtime.getSeconds()%>
+                    <%= day.toString() + "-" + (month+1).toString() + "-" + year.toString()%></td>
+            </tr>
+            <%}%>
+        <%}%>
