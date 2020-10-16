@@ -1,7 +1,7 @@
 let express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
-    nodemailer = require('nodemailer'),
+    // nodemailer = require("nodemailer"),
     app = express();
 
 const port = 80;
@@ -23,6 +23,7 @@ let AccountsSchema = new mongoose.Schema({
     email: String,
     account_no: Number,
     current_balance: Number,
+    password: String,
     transactions: {
         amount: Number,
         typeOftransac: String,
@@ -85,8 +86,7 @@ app.post("/transaction",(req,res)=> {
         Mobileno2: mobile,
         account_no: account
     }
-
-    res.redirect("/transaction");
+    res.render("transaction");
 });
 
 app.get("/view",(req,res)=> {
@@ -111,42 +111,61 @@ app.post("/create_acc",(req,res)=> {
      var details = {name:name,address:address,
                     email:email,gender:gender,
                     Mobileno1:Mobileno1,Mobileno2:Mobileno2,
-                    Phoneno:Phoneno}
+                    Phoneno:Phoneno};
 
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'bank@gmail.com'
+    Accounts.create(details,(err,account_created)=> {
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            console.log('Account Created');
+            res.render("newpass");
         }
     });
 
-    var mailOptions = {
-        from: 'bank@gmail.com',
-        to: email,
-        subject: 'Set your password',
-        text: 'Click on the link given below to set your online account password'
-    };
+    // var transporter = nodemailer.createTransport({
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    //     service: 'gmail',
+    //     secure: false,
+    //     auth: {
+    //         user: email
+    //     }
+    // });
 
-     Accounts.create(details,(err,account_created)=> {
-         if(err)
-         {
-             console.log(err);
-         }
-         else{
-             console.log('Account Created');
-             res.redirect('/');
-         }
-     })
+    // var mailOptions = {
+    //     from: 'sarthakarora1503@gmail.com',
+    //     to: email,
+    //     subject: 'Set your password',
+    //     html: "<a href='/newpass'>Click here to set your online account password</a>"
+    // };
+
+    // transporter.sendMail(mailOptions, function(error, info){
+    //     if (error) {
+    //         console.log(error);
+    //     } else {
+    //         console.log('Email sent: ' + info.response);
+    //     }
+    // });
 });
 
-app.listen(port,()=> {
+app.get("/newpass",(req,res)=> {
+    res.render("newpass");
+});
+
+app.post("/newpass",(req,res)=> {
+    
+    let temp = Accounts;
+    temp.find({}).sort();
+    let pass = req.body.password,
+        t = temp.findOne();
+    let name = t["name"],
+        email = t["email"];
+    Accounts.update({name: name, email: email},{$set: {password: pass}});
+    console.log("Password created successfully.");
+    res.redirect("/");
+});
+
+app.listen(port,'127.0.0.1',()=> {
     console.log("THE SERVER IS LISTENING!!");
 });

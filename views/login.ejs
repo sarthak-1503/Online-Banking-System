@@ -3,37 +3,41 @@
 <form action="/transaction" method="POST">
 
     <div>
-        <label for="Email">Email</label>
+        <label for="Email">Email
+            <input type="email" name="Email" placeholder="e.g. john@outlook.com" required>
+        </label>
     </div>
-    <input type="email" name="Email" placeholder="e.g. john@outlook.com" required>
 
     <div>
-        <label for="Contact">Mobile No.</label>
+        <label for="Contact">Mobile No.
+            <select name="Contact">
+                <option value="none" selected disabled hidden>Country Code</option>
+                <option value="+43 Australia">+43 | Australia</option>
+                <option value="+246 British Indian Ocean Territory">+246 | British Indian Ocean Territory</option>
+                <option value="+1 Canada">+1 | Canada</option>
+                <option value="+49 Germany">+49 | Germany</option>
+                <option value="+91 India">+91 | India</option>
+                <option value="+972 Israel">+972 | Israel</option>
+                <option value="+81 Japan">81 | Japan</option>
+                <option value="+31 Netherlands">+31 | Netherlands</option>
+                <option value="+44 United Kingdom">+44 | United Kingdom</option>
+                <option value="+1 United States">+1 | United States</option>
+            </select>
+            <input type="tel" name="Contact" placeholder="Enter 10-digit mobile no." title="Mobile No. must be a 10-digit no." pattern="(7|8|9){1}\d{9}" required>
+        </label>
     </div>
-    <select name="Contact">
-        <option value="none" selected disabled hidden>Country Code</option>
-        <option value="+43 Australia">+43 | Australia</option>
-        <option value="+246 British Indian Ocean Territory">+246 | British Indian Ocean Territory</option>
-        <option value="+1 Canada">+1 | Canada</option>
-        <option value="+49 Germany">+49 | Germany</option>
-        <option value="+91 India">+91 | India</option>
-        <option value="+972 Israel">+972 | Israel</option>
-        <option value="+81 Japan">81 | Japan</option>
-        <option value="+31 Netherlands">+31 | Netherlands</option>
-        <option value="+44 United Kingdom">+44 | United Kingdom</option>
-        <option value="+1 United States">+1 | United States</option>
-    </select>
-    <input type="tel" name="Contact" placeholder="Enter 10-digit mobile no." title="Mobile No. must be a 10-digit no." pattern="(7|8|9){1}\d{9}" required>
 
     <div>
-        <label for="AccountNo">Account No.</label>
+        <label for="AccountNo">Account No.
+            <input type="text" name="AccountNo" pattern="[0-9]{15}" size="15" placeholder="15-digit Account No." title="Account No. must be 15-digit number." required>
+        </label>
     </div>
-    <input type="text" name="AccountNo" pattern="[0-9]{15}" size="15" placeholder="15-digit Account No." title="Account No. must be 15-digit number." required>
 
     <div>
-        <label for="Pass">Password</label>
+        <label for="Pass">Password
+            <input type="password" name="Pass" minlength="8" maxlength="16" size="16" placeholder="Password" required>
+        </label>
     </div>
-    <input type="password" name="Pass" minlength="8" maxlength="16" size="16" placeholder="Password" required>
 
     <div>
         <button>Submit</button>
