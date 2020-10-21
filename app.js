@@ -67,39 +67,33 @@ app.get("/login",(req,res)=> {
     res.render("login");
 });
 
-app.get("/personaldetails",(req,res)=> {
-    res.render("personaldetails",{Accounts:Accounts, signal:signal});
-});
-
 app.get("/transaction",(req,res)=> {
     if(signal == 0)
         res.render("login");
     else
-       
         res.render("transaction",{Accounts:Accounts, signal:signal});   
 });
 
-let details1 = {}, details2 = {};
+let details1, details2;
 app.post("/transaction",(req,res)=> {
     let email = req.body.email,
-        mobile = req.body.Mobileno1,
-        account = req.body.account_no;
+        mobile = req.body.Mobileno1;
     
     details1 = {
         email: email,
-        Mobileno1: mobile,
-        account_no: account
+        Mobileno1: mobile
     }
 
     details2 = {
         email: email,
-        Mobileno2: mobile,
-        account_no: account
+        Mobileno2: mobile
     }
     res.render("transaction");
 });
 
-
+app.get("/personaldetails",(req,res)=> {
+    res.render("personaldetails",{Accounts:Accounts, signal:signal, details1:details1, details2:details2});
+});
 
 app.get("/create_acc",(req,res)=> {
     res.render('openaccount');
@@ -176,7 +170,7 @@ app.get("/view",(req,res)=> {
     Accounts.find({},function(err,alltransaction){
         if(err)
         {
-                console.log(err);
+            console.log(err);
         }
         else
         {
@@ -185,7 +179,6 @@ app.get("/view",(req,res)=> {
     })
 });
 
-
-app.listen(port,'127.0.0.1',()=> {
+app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
 });

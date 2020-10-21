@@ -1,0 +1,90 @@
+<%- include("partials/header") %>
+
+<ul> 
+    <li><a href="/accountdetails">View Account Details</a></li>
+    <li><a href="/view">View Transaction History</a></li>
+    <li><a href="/login" id="logout">Logout</a></li>
+</ul>
+
+<% let details; %>
+<% function displayPersonal() 
+{ 
+    let temp = Accounts.find(details1, (err,record) => {
+        if(err)
+            console.log(err);
+        else    
+            console.log(record);
+    });
+    if(temp.length != 0) 
+    details = Accounts.find(details1);
+    else
+        details = Accounts.find(details2); %>
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td><%= details["name"] %></td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td><%= details["address"] %></td>
+        </tr>
+        <tr>
+            <th>Mobile No.1:</th>
+            <td><%= details["Mobileno1"] %></td>
+        </tr>
+        <tr>
+            <th>Mobile No.2:</th>
+            <td><%= details["Mobileno2"] %></td>
+        </tr>
+        <tr>
+            <th>Phone No.:</th>
+            <td><%= details["Phoneno"] %></td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td><%= details["gender"] %></td>
+        </tr>
+        <tr>
+            <th>Email ID:</th>
+            <td><%= details["email"] %></td>
+        </tr>
+    </table>
+<% }%>
+
+<% function displayAccount()
+ {  
+     let details;
+     let temp = Accounts.find(details1, (err,record)=> {
+        if(err)
+            console.log(err);
+        else    
+            console.log(record);
+    });
+    if(temp.length != 0) 
+        details = Accounts.find(details1);
+    else
+        details = Accounts.find(details2); %>
+    <table>
+        <% for(let i=0;i<details["transactions"].length; i++)
+        { %>
+            <tr>
+                <th>Amount:</th>
+                <td><%= details["transactions"][i]["amount"] %></td>
+            </tr>
+            <tr>
+                <th>Type of Transaction:</th>
+                <td><%= details["transactions"][i]["typeOftransac"] %></td>
+            </tr>
+            <tr>
+                <th>Date and Time:</th>
+                <td><%= details["transactions"][i]["dataANDtime"] %></td>
+            </tr>
+        <% } %>
+    </table>
+<% } %>
+
+<% function logout() { %>
+    <%    signal = 0; %>
+  <%  } %>
+
+<%- include("partials/footer") %> 
