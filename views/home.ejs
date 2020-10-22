@@ -1,16 +1,9 @@
 <%- include("partials/header") %>
 
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li>Facility
-            <!-- Following to be put inside dropdown in a navbar under "Facility" section -->
-            <ul>
-                <li><a href="/create_acc">Create Account</a></li>
-                <li><a href="/transaction">Make Transaction</a></li> <!-- If the user is not logged in and clicks the "make transaction" option, then redirect him to login page -->
-            </ul>
-        </li>
-        <li><a href="/login">Customer Login</a></li>
-    </ul>
+<a href="/">Home</a>
+<a href="/create_acc">Create Account</a>
+<a href="/transaction">Make Transaction</a>
+<a href="/login">Customer Login</a>
 
 <%- include("partials/footer") %>
 
