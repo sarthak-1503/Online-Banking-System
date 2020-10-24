@@ -16,17 +16,20 @@
 
 <form onsubmit="return myfunc()" action="/create_acc" method="POST">
     <div>
-        <label for="name">Name</label>
-      <input type="text" id="name" placeholder="Name" name="name">
+        <label for="name">Name
+          <input type="text" id="name" placeholder="Name" name="name" required>
+        </label>
     </div>
     <div>
-        <label for="address">Residential Address</label>
-      <input type="text" id="address" placeholder="Residential Address" name="address">
+        <label for="address">Residential Address
+            <input type="text" id="address" placeholder="Residential Address" name="address" required>
+        </label>
     </div>  
-    <!-- <div>
-        <label for="email">Email Id</label>
-      <input type="email" id="email" placeholder="Email Id" name="email">
-    </div>      -->
+    <div>
+        <label for="email">Email Id
+            <input type="email" id="email" placeholder="Email Id" name="email" required>
+        </label>
+    </div>      
     <div>
       <input type="radio" id="male" name="gender" value="male">
       <label for="male">Male</label>
@@ -37,7 +40,7 @@
     </div>
     <div>
       <label for="contactm1">Mobile No.
-        <select name="contactm1">
+        <select name="contactm1" required>
           <option value="none" selected disabled hidden>Country Code</option>
           <option value="Afghanistan  93"> Afghanistan  93 </option>
           <option value="Albania     	355"> Albania     	355 </option>
@@ -280,12 +283,12 @@
           <option value="Zambia	260"> Zambia	260 </option>
           <option value="Zimbabwe	263"> Zimbabwe	263 </option>
         </select>
+        <input type="tel" id="contactm1" class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Mobile No." name="Mobileno1" required>
       </label>
-      <input type="tel" id="contactm1" class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Mobile No." name="Mobileno1">
     </div>
     <div>  
       <label for="contactm2">Mobile No.
-        <select name="contactm2">
+        <select name="contactm2" required>
           <option value="none" selected disabled hidden>Country Code</option>
           <option value="Afghanistan  93"> Afghanistan  93 </option>
           <option value="Albania     	355"> Albania     	355 </option>
@@ -528,12 +531,13 @@
           <option value="Zambia	260"> Zambia	260 </option>
           <option value="Zimbabwe	263"> Zimbabwe	263 </option>
         </select>
+        <input type="tel" id="contactm2"  class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Other Mobile No." name="Mobileno2" required>
       </label>
-      <input type="tel" id="contactm2"  class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Other Mobile No." name="Mobileno2">
     </div>
     <div>  
-      <label for="contactp">Phone No.</label>
-      <input type="tel" id="contactp" class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Phone No." name="Phoneno">
+      <label for="contactp">Phone No.
+        <input type="tel" id="contactp" class="contact" pattern="{1}(7,8,9){9}[0-9]" placeholder="Phone No." name="Phoneno">
+      </label>
     </div>
     <div>  
       <button>Submit</button>
@@ -541,8 +545,12 @@
 </form>
 
 <script>
-    function myfunc(){
-        document.querySelector('#contactm1').value;
+    function myfunc() {
+        return document.querySelector('#contactm1').value;
+    }
+
+    function logout() {
+        signal = 0;
     }
 
 </script>

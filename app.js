@@ -44,7 +44,7 @@ let signal = 0,
     saltRounds = 10;
 
 app.get("/login",(req,res)=> {
-    res.render("login",{signal:signal});
+    res.render("login",{signal: signal});
 });
 
 app.get("/signup",(req,res)=> {
@@ -83,6 +83,7 @@ app.post("/signup",(req,res)=> {
 app.get("/accountactivity",(req,res)=> {
     if(signal == 0)
     {
+        alert("You need to be logged in first!!");
         res.render("login");
     }
     else
@@ -133,6 +134,51 @@ app.post("/accountactivity",(req,res)=> {
     });
 });
 
+app.get("/create_acc",(req,res)=> {
+    if(signal == 0)
+    {
+        alert("You need to be logged in first!!");
+        res.redirect("/login");
+    }
+    else
+    {
+        res.render("openaccount");
+    }
+});
+
+app.post("/create_acc",(req,res)=> {
+
+     var name =  req.body.name;
+     var address =  req.body.address;
+     var email = req.body.email;
+     var gender = req.body.gender;
+     var Mobileno1 = req.body.Mobileno1;
+     var Mobileno2 = req.body.Mobileno2;
+     var Phoneno = req.body.Phoneno;
+     
+     var details = {
+        name:name,
+        address:address,
+        email: email,
+        gender:gender,
+        Mobileno1:Mobileno1,
+        Mobileno2:Mobileno2,
+        Phoneno:Phoneno
+    };
+
+    Accounts.update(logindetails,{$set: details},(err,account_created)=> {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log('Account Created');
+        }
+    });
+    res.redirect("/accountactivity");
+});
+
 app.get("/transaction",(req,res)=> {
     if(signal == 0)
     {
@@ -155,47 +201,6 @@ app.get("/personaldetails",(req,res)=> {
         res.render("personaldetails",{Accounts:Accounts, signal:signal, record:record});
     });
     
-});
-
-app.get("/create_acc",(req,res)=> {
-    if(signal == 0)
-    {
-        res.render("login");
-    }
-    else
-    {
-        res.render("openaccount");
-    }
-});
-
-app.post("/create_acc",(req,res)=> {
-
-     var name =  req.body.name;
-     var address =  req.body.address;
-     var gender = req.body.gender;
-     var Mobileno1 = req.body.Mobileno1;
-     var Mobileno2 = req.body.Mobileno2;
-     var Phoneno = req.body.Phoneno;
-     var details = {
-        name:name,
-        address:address,
-        gender:gender,
-        Mobileno1:Mobileno1,
-        Mobileno2:Mobileno2,
-        Phoneno:Phoneno
-    };
-
-    Accounts.update(logindetails,{$set: details},(err,account_created)=> {
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            console.log('Account Created');
-        }
-    });
-    res.redirect("/accountactivity");
 });
 
 app.get("/view",(req,res)=> {
