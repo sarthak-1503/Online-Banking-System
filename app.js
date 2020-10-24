@@ -185,7 +185,7 @@ app.post("/view",(req,res)=>{
                }
                 });
             res.redirect("view");
-            }
+         }
             else
             {
               res.render("alert")
