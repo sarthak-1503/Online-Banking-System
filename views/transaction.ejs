@@ -1,42 +1,17 @@
 <%- include("partials/header") %>
+
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/transaction">Make Transaction</a></li>
+    <li><a href="/personaldetails">View Account Details</a></li>
+    <li><a href="/personaldetails">View Personal Details</a></li>
+    <li><a href="/view">View Transaction History</a></li>
+    <li><a href="/login" onclick="logout()">Logout</a></li>
+    <table id="table"></table>
+</ul>
+
+<% function logout() { %>
+    <%    signal = 0; %>
+  <%  } %>
     
-      <form onsubmit="return check(this) "id="transacsub" action="/view" method="POST">
-        <input type="text" id="amt" placeholder="Name" name="name">  
-        <input type="number" id="amt" placeholder="Amount" name="trans_amount">
-          <select name="trans_type">
-            <option value="withdrawl">Withdrawl</option>
-            <option value="deposit">deposit</option>
-          </select>
-          <button id="cancel" formaction="/" formmethod="get">Cancel</button> 
-          <button id="pay">Confim</button>
-        </form>  
-    <script >
-      var total = <%= Account[0].total_amount %> 
-      
-
-      // $(document).ready(function() { 
-      //           $("#pay").click(function() { 
-      //               $("#amt").val(function(n, c) {          
-      //                 if(c>total-1000)
-      //                 {
-      //                   alert("transaction Successful");
-
-      //                   window.location.replace("/view");
-      //                 }
-      //                 else
-      //                 {
-      //                   alert("Transaction Failed");
-      //                   window.location.replace("/")
-      //                 }
-      //               }); 
-      //           }); 
-      //       }); 
-
-      $(document).ready(function() { 
-                $("#cancel").click(function() { 
-                        alert("Transaction Canceled")
-                        window.location.replace("/");   
-                    }); 
-                });  
-    </script>
 <%- include("partials/footer") %>
