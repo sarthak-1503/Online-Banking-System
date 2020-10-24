@@ -23,11 +23,7 @@
                 <td><%var day = Account[i].transactions[j].dateANDtime.getDate()%>
                     <%var month = Account[i].transactions[j].dateANDtime.getMonth()%>
                     <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
-                    <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
-                    <%var hour = Account[i].transactions[j].dateANDtime.getHours()%>
-                    <%var minute = Account[i].transactions[j].dateANDtime.getMinutes()%>
-                    <%var second = Account[i].transactions[j].dateANDtime.getSeconds()%>
-                    <%= day.toString() + "-" + (month+1).toString() + "-" + year.toString()%></td>
+                    <%=day + "-" + month + "-" + year%></td>
             </tr>
             <%}%>
         <%}%>

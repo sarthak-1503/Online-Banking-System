@@ -29,20 +29,22 @@ let AccountsSchema = new mongoose.Schema({
     account_no: Number,
     current_balance: Number,
     password: String,
+    total_amount: Number,
     transactions:[transactionSchema]
 });
-let Accounts = mongoose.model("Accounts",AccountsSchema);
+ let Accounts = mongoose.model("Accounts",AccountsSchema);
 
 //  Accounts.create(
-//      { name: "japnit", 
+//      { name: "japnit",
+//        total_amount: 200000, 
 //        transactions:[ 
 //        {
-//          amount: 15000,
-//          typeOftransac: "deposit",
+//          amount: 20000,
+//          typeOftransac: "deposi",
 //          dateANDtime: "2020-10-17"
 //        },
 //        {
-//          amount:23000,
+//          amount:30000,
 //          typeOftransac: "withdrawl",
 //          dateANDtime: "2020-10-19"
 //        }
@@ -57,6 +59,7 @@ let Accounts = mongoose.model("Accounts",AccountsSchema);
 //          }
 //      });
 
+
 app.get("/",(req,res)=> {
      res.render('home');
 });
@@ -68,28 +71,19 @@ app.get("/login",(req,res)=> {
 });
 
 app.get("/transaction",(req,res)=> {
-    if(signal == 0)
-        res.render("login");
-    else
-        res.render("transaction",{Accounts:Accounts, signal:signal});   
-});
+    Accounts.find({},function(err,payments){
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            res.render("transaction",{Account:payments});
+        }    
+    })   
+})
 
-let details1, details2;
-app.post("/transaction",(req,res)=> {
-    let email = req.body.email,
-        mobile = req.body.Mobileno1;
-    
-    details1 = {
-        email: email,
-        Mobileno1: mobile
-    }
 
-    details2 = {
-        email: email,
-        Mobileno2: mobile
-    }
-    res.render("transaction");
-});
 
 app.get("/personaldetails",(req,res)=> {
     res.render("personaldetails",{Accounts:Accounts, signal:signal, details1:details1, details2:details2});
@@ -108,10 +102,11 @@ app.post("/create_acc",(req,res)=> {
      var Mobileno1 = req.body.Mobileno1;
      var Mobileno2 = req.body.Mobileno2;
      var Phoneno = req.body.Phoneno;
+     var total_amount = 0;
      var details = {name:name,address:address,
                     email:email,gender:gender,
                     Mobileno1:Mobileno1,Mobileno2:Mobileno2,
-                    Phoneno:Phoneno};
+                    Phoneno:Phoneno,total_amount:total_amount};
 
     Accounts.create(details,(err,account_created)=> {
         if(err)
@@ -178,6 +173,34 @@ app.get("/view",(req,res)=> {
         }    
     })
 });
+
+app.post("/view",(req,res)=>{
+    var total;
+    var amt = req.body.trans_amount;
+    var type = req.body.trans_type;
+    var date = new Date()
+   Accounts.findOne({name:"japnit"},function(err,alltransaction){
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+          total = alltransaction.total_amount;
+            Accounts.update({name:"japnit"},{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+            if(err)
+            {
+                console.log(err);
+            }
+           });
+        
+        }
+    });   
+    res.redirect("view");
+      
+}); 
+
+
 
 app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
