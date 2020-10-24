@@ -3,7 +3,6 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     // nodemailer = require("nodemailer"),
     bcrypt = require("bcrypt"),
-    nodemon = require("nodemon"),
     app = express();
 
 const port = 80;
