@@ -1,7 +1,13 @@
 <%- include("partials/header") %>
-    
-      <form onsubmit="return check(this) "id="transacsub" action="/view" method="POST">
-        <input type="text" id="amt" placeholder="Name" name="name">  
+<script type="text/javascript">
+  function preback(){
+    window.history.forward();
+  }
+  setTimeout("preback()", 0);
+  window.onunload=function(){null};
+</script>
+
+      <form id="transacsub" action="/view" method="POST">
         <input type="number" id="amt" placeholder="Amount" name="trans_amount">
           <select name="trans_type">
             <option value="withdrawl">Withdrawl</option>
@@ -10,33 +16,12 @@
           <button id="cancel" formaction="/" formmethod="get">Cancel</button> 
           <button id="pay">Confim</button>
         </form>  
-    <script >
-      var total = <%= Account[0].total_amount %> 
-      
-
-      // $(document).ready(function() { 
-      //           $("#pay").click(function() { 
-      //               $("#amt").val(function(n, c) {          
-      //                 if(c>total-1000)
-      //                 {
-      //                   alert("transaction Successful");
-
-      //                   window.location.replace("/view");
-      //                 }
-      //                 else
-      //                 {
-      //                   alert("Transaction Failed");
-      //                   window.location.replace("/")
-      //                 }
-      //               }); 
-      //           }); 
-      //       }); 
-
-      $(document).ready(function() { 
-                $("#cancel").click(function() { 
-                        alert("Transaction Canceled")
-                        window.location.replace("/");   
-                    }); 
-                });  
-    </script>
+<script>       
+        $(document).ready(function() { 
+          $("#cancel").click(function() { 
+                  alert("Transaction Canceled")
+                  window.location.replace("/");   
+              }); 
+          });  
+</script> 
 <%- include("partials/footer") %>

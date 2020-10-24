@@ -162,14 +162,14 @@ app.post("/newpass",(req,res)=> {
 });
 
 app.get("/view",(req,res)=> {
-    Accounts.find({},function(err,alltransaction){
+    Accounts.findOne({name:"japnit"},function(err,alltransaction){
         if(err)
         {
             console.log(err);
         }
         else
-        {
-            res.render("view",{Account:alltransaction});
+        { 
+           res.render("view",{Account:alltransaction});
         }    
     })
 });
@@ -177,6 +177,7 @@ app.get("/view",(req,res)=> {
 app.post("/view",(req,res)=>{
     var total;
     var amt = req.body.trans_amount;
+    amt = parseInt(amt); 
     var type = req.body.trans_type;
     var date = new Date()
    Accounts.findOne({name:"japnit"},function(err,alltransaction){
@@ -187,16 +188,37 @@ app.post("/view",(req,res)=>{
         else
         {
           total = alltransaction.total_amount;
-            Accounts.update({name:"japnit"},{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
-            if(err)
+          total = parseInt(total);
+         if(type=="withdrawl") 
+         {
+            if(amt<total-1000)
             {
-                console.log(err);
+               Accounts.update({name:"japnit"},{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+              if(err)
+               { 
+                  console.log(err);
+               }
+                });
+            res.redirect("view");
             }
-           });
-        
+            else
+            {
+              res.render("alert")
+            }
+         }
+         else if(type=="deposit")
+         {
+            Accounts.update({name:"japnit"},{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+                if(err)
+                 { 
+                    console.log(err);
+                 }
+                  });
+              res.redirect("view");
+         }  
         }
     });   
-    res.redirect("view");
+    
       
 }); 
 
