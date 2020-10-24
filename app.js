@@ -29,22 +29,20 @@ let AccountsSchema = new mongoose.Schema({
     account_no: Number,
     current_balance: Number,
     password: String,
-    total_amount: Number,
     transactions:[transactionSchema]
 });
- let Accounts = mongoose.model("Accounts",AccountsSchema);
+let Accounts = mongoose.model("Accounts",AccountsSchema);
 
 //  Accounts.create(
-//      { name: "japnit",
-//        total_amount: 200000, 
+//      { name: "japnit", 
 //        transactions:[ 
 //        {
-//          amount: 20000,
-//          typeOftransac: "deposi",
+//          amount: 15000,
+//          typeOftransac: "deposit",
 //          dateANDtime: "2020-10-17"
 //        },
 //        {
-//          amount:30000,
+//          amount:23000,
 //          typeOftransac: "withdrawl",
 //          dateANDtime: "2020-10-19"
 //        }
@@ -59,7 +57,6 @@ let AccountsSchema = new mongoose.Schema({
 //          }
 //      });
 
-
 app.get("/",(req,res)=> {
      res.render('home');
 });
@@ -71,19 +68,28 @@ app.get("/login",(req,res)=> {
 });
 
 app.get("/transaction",(req,res)=> {
-    Accounts.find({},function(err,payments){
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            res.render("transaction",{Account:payments});
-        }    
-    })   
-})
+    if(signal == 0)
+        res.render("login");
+    else
+        res.render("transaction",{Accounts:Accounts, signal:signal});   
+});
 
+let details1, details2;
+app.post("/transaction",(req,res)=> {
+    let email = req.body.email,
+        mobile = req.body.Mobileno1;
+    
+    details1 = {
+        email: email,
+        Mobileno1: mobile
+    }
 
+    details2 = {
+        email: email,
+        Mobileno2: mobile
+    }
+    res.render("transaction");
+});
 
 app.get("/personaldetails",(req,res)=> {
     res.render("personaldetails",{Accounts:Accounts, signal:signal, details1:details1, details2:details2});
@@ -102,11 +108,10 @@ app.post("/create_acc",(req,res)=> {
      var Mobileno1 = req.body.Mobileno1;
      var Mobileno2 = req.body.Mobileno2;
      var Phoneno = req.body.Phoneno;
-     var total_amount = 0;
      var details = {name:name,address:address,
                     email:email,gender:gender,
                     Mobileno1:Mobileno1,Mobileno2:Mobileno2,
-                    Phoneno:Phoneno,total_amount:total_amount};
+                    Phoneno:Phoneno};
 
     Accounts.create(details,(err,account_created)=> {
         if(err)
@@ -221,8 +226,6 @@ app.post("/view",(req,res)=>{
     
       
 }); 
-
-
 
 app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
