@@ -26,18 +26,6 @@
                     <%var month = Account.transactions[j].dateANDtime.getMonth()%>
                     <%var year = Account.transactions[j].dateANDtime.getFullYear()%>
                     <%=day + "-" + month + "-" + year%></td>
-
-                <td><%=Account[i].transactions[j].amount%></td>
-                <td><%=Account[i].transactions[j].typeOftransac%></td>
-                <td><%var day = Account[i].transactions[j].dateANDtime.getDate()%>
-                    <%var month = Account[i].transactions[j].dateANDtime.getMonth()%>
-                    <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
-                    <%var year = Account[i].transactions[j].dateANDtime.getFullYear()%>
-                    <%var hour = Account[i].transactions[j].dateANDtime.getHours()%>
-                    <%var minute = Account[i].transactions[j].dateANDtime.getMinutes()%>
-                    <%var second = Account[i].transactions[j].dateANDtime.getSeconds()%>
-                    <%= day.toString() + "-" + (month+1).toString() + "-" + year.toString()%></td>
-
             </tr>
             <%}%>
     <div>
