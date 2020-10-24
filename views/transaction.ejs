@@ -1,5 +1,14 @@
 <%- include("partials/header") %>
 
+<% signal = 1; %>
+
+<a href="/">Home</a>
+<a href="/create_acc">Create Account</a>
+<a href="/transaction">Make Transaction</a>
+<a href="/view">View Account Details</a>
+<a href="/personaldetails">View Personal Details</a>
+<a href="/login" onclick="logout()">Logout</a>
+
 <script type="text/javascript">
   function preback(){
     window.history.forward();
@@ -26,9 +35,10 @@
           });  
 </script> 
 
-<% function logout() { %>
-    <%    signal = 0; %>
-  <%  } %>
-    
+<script>
+  function logout() {
+  signal = 0;
+} 
+</script>
 
 <%- include("partials/footer") %>

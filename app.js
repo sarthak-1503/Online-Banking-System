@@ -3,21 +3,16 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     // nodemailer = require("nodemailer"),
     app = express();
-
 const port = 80;
-
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
-
 mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
 //console.log(mongoose.connect.readyState);
-
 let transactionSchema = new mongoose.Schema({
     amount: Number,
     typeOftransac: String,
     dateANDtime : Date
 })
-
 let AccountsSchema = new mongoose.Schema({
     name: String,
     address: String,
@@ -32,7 +27,6 @@ let AccountsSchema = new mongoose.Schema({
     transactions:[transactionSchema]
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
-
 //  Accounts.create(
 //      { name: "japnit", 
 //        transactions:[ 
@@ -56,24 +50,20 @@ let Accounts = mongoose.model("Accounts",AccountsSchema);
 //              console.log(account);
 //          }
 //      });
-
 app.get("/",(req,res)=> {
      res.render('home');
 });
-
 let signal=0;
 app.get("/login",(req,res)=> {
     signal = 1;
     res.render("login");
 });
-
 app.get("/transaction",(req,res)=> {
     if(signal == 0)
         res.render("login");
     else
         res.render("transaction",{Accounts:Accounts, signal:signal});   
 });
-
 let details1, details2;
 app.post("/transaction",(req,res)=> {
     let email = req.body.email,
@@ -83,24 +73,19 @@ app.post("/transaction",(req,res)=> {
         email: email,
         Mobileno1: mobile
     }
-
     details2 = {
         email: email,
         Mobileno2: mobile
     }
     res.render("transaction");
 });
-
 app.get("/personaldetails",(req,res)=> {
     res.render("personaldetails",{Accounts:Accounts, signal:signal, details1:details1, details2:details2});
 });
-
 app.get("/create_acc",(req,res)=> {
     res.render('openaccount');
 });
-
 app.post("/create_acc",(req,res)=> {
-
      var name =  req.body.name;
      var address =  req.body.address;
      var email = req.body.email;
@@ -112,7 +97,6 @@ app.post("/create_acc",(req,res)=> {
                     email:email,gender:gender,
                     Mobileno1:Mobileno1,Mobileno2:Mobileno2,
                     Phoneno:Phoneno};
-
     Accounts.create(details,(err,account_created)=> {
         if(err)
         {
@@ -123,23 +107,19 @@ app.post("/create_acc",(req,res)=> {
             res.render("newpass");
         }
     });
-
     // var transporter = nodemailer.createTransport({
-
     //     service: 'gmail',
     //     secure: false,
     //     auth: {
     //         user: email
     //     }
     // });
-
     // var mailOptions = {
     //     from: 'sarthakarora1503@gmail.com',
     //     to: email,
     //     subject: 'Set your password',
     //     html: "<a href='/newpass'>Click here to set your online account password</a>"
     // };
-
     // transporter.sendMail(mailOptions, function(error, info){
     //     if (error) {
     //         console.log(error);
@@ -148,11 +128,9 @@ app.post("/create_acc",(req,res)=> {
     //     }
     // });
 });
-
 app.get("/newpass",(req,res)=> {
     res.render("newpass");
 });
-
 app.post("/newpass",(req,res)=> {
     
     let temp = Accounts;
@@ -167,16 +145,18 @@ app.post("/newpass",(req,res)=> {
 });
 
 app.get("/view",(req,res)=> {
+    Accounts.find({},function(err,alltransaction){
     Accounts.findOne({name:"japnit"},function(err,alltransaction){
         if(err)
         {
             console.log(err);
         }
         else
-        { 
-           res.render("view",{Account:alltransaction});
+        {
+            res.render("view",{Account:alltransaction});
         }    
-    })
+    });
+});
 });
 
 app.post("/view",(req,res)=>{
@@ -223,8 +203,8 @@ app.post("/view",(req,res)=>{
          }  
         }
     });   
-    
-      
+
+
 }); 
 
 app.listen(port,()=> {
