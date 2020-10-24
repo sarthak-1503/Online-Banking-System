@@ -200,7 +200,7 @@ app.post("/view",(req,res)=>{
                }
                 });
             res.redirect("view");
-            }
+         }
             else
             {
               res.render("alert")
@@ -221,8 +221,6 @@ app.post("/view",(req,res)=>{
     
       
 }); 
-
-
 
 app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");
