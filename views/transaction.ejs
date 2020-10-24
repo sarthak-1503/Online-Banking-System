@@ -1,5 +1,32 @@
 <%- include("partials/header") %>
 
+<script type="text/javascript">
+  function preback(){
+    window.history.forward();
+  }
+  setTimeout("preback()", 0);
+  window.onunload=function(){null};
+</script>
+
+      <form id="transacsub" action="/view" method="POST">
+        <input type="number" id="amt" placeholder="Amount" name="trans_amount">
+          <select name="trans_type">
+            <option value="withdrawl">Withdrawl</option>
+            <option value="deposit">deposit</option>
+          </select>
+          <button id="cancel" formaction="/" formmethod="get">Cancel</button> 
+          <button id="pay">Confim</button>
+        </form>  
+<script>       
+        $(document).ready(function() { 
+          $("#cancel").click(function() { 
+                  alert("Transaction Canceled")
+                  window.location.replace("/");   
+              }); 
+          });  
+</script> 
+
+
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/transaction">Make Transaction</a></li>
@@ -14,4 +41,5 @@
     <%    signal = 0; %>
   <%  } %>
     
+
 <%- include("partials/footer") %>
