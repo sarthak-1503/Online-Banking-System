@@ -18,11 +18,18 @@
         <%for(i=0;i<Account.length; i++){%>
             <%for(j=0;j<Account[i].transactions.length; j++){%>
 
-
             <%for(j=0;j<Account.transactions.length; j++){%>
             <tr>      
                 <td> <%count=count+1%>
                      <%=count%></td>
+
+                <td><%=Account.transactions[j].amount%></td>
+                <td><%=Account.transactions[j].typeOftransac%></td>
+                <td><%var day = Account.transactions[j].dateANDtime.getDate()%>
+                    <%var month = Account.transactions[j].dateANDtime.getMonth()%>
+                    <%var year = Account.transactions[j].dateANDtime.getFullYear()%>
+                    <%=day + "-" + month + "-" + year%></td>
+
                 <td><%=Account.transactions[j].amount%></td>
                 <td><%=Account.transactions[j].typeOftransac%></td>
                 <td><%var day = Account.transactions[j].dateANDtime.getDate()%>
