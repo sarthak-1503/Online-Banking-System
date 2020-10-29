@@ -6,43 +6,43 @@
     }
 </style>
 
-<ul> 
-    <li><a href="/view">View Account Details</a></li>
-    <li><a onclick="logout()" href="/login">Logout</a></li>
-</ul>
- 
-<table>
-    <tr>
-        <th>Name:</th>
-        <td><%= record.name %></td>
-    </tr>
-    <tr>
-        <th>Address:</th>
-        <td><%= record.address %></td>
-    </tr>
-    <tr>
-        <th>Mobile No.1:</th>
-        <td><%= record.Mobileno1 %></td>
-    </tr>
-    <tr>
-        <th>Mobile No.2:</th>
-        <td><%= record.Mobileno2 %></td>
-    </tr>
-    <tr>
-        <th>Phone No.:</th>
-        <td><%= record.Phoneno %></td>
-    </tr>
-    <tr>
-        <th>Gender:</th>
-        <td><%= record.gender %></td>
-    </tr>
-    <tr>
-        <th>Email ID:</th>
-        <td><%= record.email %></td>
-    </tr>
-</table> 
 
-    
+<div class="container">
+    <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
+    <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
+
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td><%= record.name %></td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td><%= record.address %></td>
+        </tr>
+        <tr>
+            <th>Mobile No.1:</th>
+            <td><%= record.Mobileno1 %></td>
+        </tr>
+        <tr>
+            <th>Mobile No.2:</th>
+            <td><%= record.Mobileno2 %></td>
+        </tr>
+        <tr>
+            <th>Phone No.:</th>
+            <td><%= record.Phoneno %></td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td><%= record.gender %></td>
+        </tr>
+        <tr>
+            <th>Email ID:</th>
+            <td><%= record.email %></td>
+        </tr>
+    </table> 
+  </div>
+
 
 <script>
     function logout() { 

@@ -1,26 +1,65 @@
 <%- include("partials/header") %>
 
-<a href="/">Home</a>
+<style>
+    p {
+        width: 28%;
+        border: 2px solid black;
+        background: rgb(212, 127, 127);
+    }
+    .logo {
+        background-color: darkblue;
+        margin-left: 0;
+        margin-right: 0;
+        background-size: cover;
+        /* -webkit-box-sizing: border-box;
+        box-sizing: border-box; 
+        max-width: 100%; */
+    }
+</style>
 
-<h4>LOG IN PLEASE!!</h4>
-<form action="/accountactivity" method="POST">
+<div class="container">
+    <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
+    <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button> 
+
+<div>
+    <h4><strong>Customer Login</strong></h4>
+</div>
+
+<form onclick="hideerror()" action="/login" method="POST">
+    <% if(f == -1)
+    { %>
+        <p id="error">Wrong Email or Password. Please try again!!</p>
+        <% f = 0;
+    } %>
     <div>
-        <label for="Email">Email
-            <input id="email" type="email" name="Email" placeholder="e.g. john@outlook.com" required>
-        </label>
+        <label for="Email">Email</label>
+        <input type="email" name="Email" placeholder="e.g. john@outlook.com" required>
     </div>
 
     <div>
-        <label for="Pass">Password
-            <input id="pass" type="password" name="Pass" minlength="8" maxlength="16" size="16" placeholder="Password" required>
-        </label>
+        <label for="Pass">Password</label>
+        <input class="createPass" type="password" placeholder="Password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+        1. atleast 5 characters long
+        2. atleast 1 uppercase letter
+        3. atleast 1 lowercase letter
+        4. atleast 1 special character " required> 
     </div>
 
     <div>
-        <button>Submit</button>
+        <button>Log In</button>
     </div>
 </form>
 
-<a href="/signup">SignUp</a>
+<div>
+    Does not have a Login Account? Create now... <button onclick="window.location.href='/signup'">Sign Up</a>
+</div>
+</div>
+
+<script>
+    function hideerror() {
+        let error = document.querySelector("#error");
+        error.style.visibility = hidden;
+    }
+</script>
 
 <%- include("partials/footer") %>

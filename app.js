@@ -3,19 +3,21 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     // nodemailer = require("nodemailer"),
     bcrypt = require("bcrypt"),
+    nodemon = require("nodemon"),
     app = express();
+
 const port = 80;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
-//console.log(mongoose.connect.readyState);
+
 let transactionSchema = new mongoose.Schema({
     amount: Number,
     typeOftransac: String,
     dateANDtime : Date
 });
 let AccountsSchema = new mongoose.Schema({
-    name: String,
+    name: String, 
     address: String,
     Mobileno1: Number,
     Mobileno2: Number,
@@ -30,28 +32,112 @@ let AccountsSchema = new mongoose.Schema({
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
+let signal = 0,
+    logindetails = {},
+    details={},
+    saltRounds = 5,
+    f=0,
+    rec;
 
 app.get("/",(req,res)=> {
-     res.render('home');
+
+    // console.log("signal: "+signal);
+    if(logindetails != null)
+    {
+        Accounts.findOne(logindetails, (err,record)=> {
+            if(err)
+            {
+                console.log(err);
+            }
+            else
+            {
+                rec = record;
+                res.render("home",{signal:signal, record:record});           
+            }
+        });
+    }
+    else
+    {
+        res.render("home",{signal:signal});
+    }
 });
 
-let signal=0,
-    details,
-    logindetails,
-    saltRounds = 10;
-
-
 app.get("/login",(req,res)=> {
-    signal = 1;
-    res.render("login");
+    res.render("login",{f:f});
+});
+
+app.post("/login",(req,res)=> {
+    let email = req.body.Email,
+        pass = req.body.p1;
+    
+    logindetails = {
+        email: email,
+        password: pass,
+    };
+    // console.log("login="+logindetails);
+
+    Accounts.findOne({email: email},(err,record)=> {
+        if(err)
+        {
+            console.log(err);
+        }
+        else    
+        {
+            // console.log(record);
+
+            if(record == null)
+            {
+                console.log("No account with this email exists!!");
+                f=-1;
+                res.redirect("/login");
+            }
+            else
+            {
+                bcrypt.hash(record.password, saltRounds, (err,hash)=> {
+                    bcrypt.compare(pass, hash, (err,result)=> {
+                        if(result)
+                        {
+                            console.log("LOGIN DONE!!");
+                            if(signal == 2)
+                            {
+                                signal = 1;
+                                res.redirect("/create_acc");
+                            }
+                            else if(signal == 3)
+                            {
+                                signal = 1;
+                                res.redirect("/transaction");
+                            }
+                            else
+                            {
+                                signal = 1;
+                                res.redirect("/");
+                            }
+                        }
+                        else
+                        {
+                            signal = 0;
+                            console.log("LOGIN PENDING!!");
+                            f=-1;
+                            res.redirect("/login");
+                        }
+                    });
+                });
+            }
+            
+        }
+    });
 });
 
 app.get("/signup",(req,res)=> {
     res.render("signup",{signal: signal});
 });
+
 app.post("/signup",(req,res)=> {
     let email = req.body.email,
-        pass = req.body.password;
+        pass = req.body.p1,
+        name = req.body.name;
+    var totalAmount = 0;
     
     bcrypt.genSalt(saltRounds, function(err,salt) {
         bcrypt.hash(pass, salt, function(err,hash) {
@@ -59,13 +145,17 @@ app.post("/signup",(req,res)=> {
                 console.log(err);
             else
                 pass = hash;
+                
         });
     });
     
     logindetails = {
+        name: name,
         email: email, 
-        password: pass
+        password: pass,
+        total_amount: totalAmount
     };
+    console.log(logindetails);
     Accounts.create(logindetails, (err,logindetails)=> {
         if(err)
             console.log(err);
@@ -73,95 +163,41 @@ app.post("/signup",(req,res)=> {
             console.log(logindetails);
     });
     console.log("Password created successfully.");
-    res.redirect("/login");
-});
-
-app.get("/accountactivity",(req,res)=> {
-    if(signal == 0)
-    {
-        alert("You need to be logged in first!!");
-        res.render("login");
-    }
-    else
-    {
-        res.render("accountactivity",{Accounts:Accounts, signal:signal});   
-    }
-});
-app.post("/accountactivity",(req,res)=> {
-    let email = req.body.email,
-        pass = req.body.password;
-    
-    logindetails = {
-        email: email,
-        password: pass
-    };
-    Accounts.find({email: email},(err,record)=> {
-        if(err)
-            console.log(err);
-        else   
-        {
-            console.log(record);
-            if(record.estimatedDocumentCount() == 0)
-            {
-                console.log("LOGIN AGAIN!!");
-                res.render("login");
-            }
-            else
-            {
-                bcrypt.compare(pass, record.password, (err,result)=> {
-                    if(result)
-                    {
-                        console.log("LOGIN DONE!!");
-                        res.render("transaction",{signal: signal, check: record});
-                        signal = 1;
-                    }
-                    else
-                    {
-                        console.log("LOGIN PENDING!!");
-                        res.render("login");
-                    }
-                });
-            }
-        }
-    });
+    signal = 1;
+    res.redirect("/");
 });
 
 app.get("/transaction",(req,res)=> {
-    Accounts.find({},function(err,payments){
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            res.render("transaction",{Account:payments});
-        }    
-    });
-})
-
-app.get("/personaldetails",(req,res)=> {
-    Accounts.findOne(details, (err,record) => { 
-
-        if(err)
-            console.log(err);
-        else 
-            console.log(record);
-
-        res.render("personaldetails",{Accounts:Accounts, signal:signal, record:record});
-    });
-
-});
-
-app.get("/create_acc",(req,res)=> {
-    if(signal == 0)
+    if(signal != 1)
     {
-        res.render("login");
-        alert("You need to be logged in first!!");
+        signal = 3;
         res.redirect("/login");
     }
     else
     {
-        res.render("openaccount");
+        // console.log("transaction:"+logindetails);
+        Accounts.findOne(logindetails,function(err,payments){
+            if(err)
+            {
+                console.log(err);
+            }
+            else
+            {
+                res.render("transaction",{Account:payments,signal:signal,record:rec});
+            }    
+        });
+    }
+});
+
+app.get("/create_acc",(req,res)=> {
+    if(signal != 1)
+    {
+        signal = 2;
+        res.redirect("/login");
+    }
+    else
+    {
+        res.render("openaccount",{signal:signal,record:rec});
     }
 });
 
@@ -174,17 +210,20 @@ app.post("/create_acc",(req,res)=> {
     var Mobileno1 = req.body.Mobileno1;
     var Mobileno2 = req.body.Mobileno2;
     var Phoneno = req.body.Phoneno;
+    var total_amount = 0;
 
-    var details = {
-       name:name,
-       address:address,
-       email: email,
-       gender:gender,
-       Mobileno1:Mobileno1,
-       Mobileno2:Mobileno2,
-       Phoneno:Phoneno
-   };
-   Accounts.update(logindetails,{$set: details},(err,account_created)=> {
+    details = {
+        name: name,
+        address: address,
+        email: email,
+        gender: gender,
+        Mobileno1: Mobileno1,
+        Mobileno2: Mobileno2,
+        Phoneno: Phoneno,
+        total_amount:total_amount
+    }
+
+   Accounts.updateOne(logindetails,{$set: details},(err,account_created)=> {
        if(err)
        {
            console.log(err);
@@ -192,24 +231,36 @@ app.post("/create_acc",(req,res)=> {
        else
        {
            console.log('Account Created');
+
        }
    });
-   res.redirect("/accountactivity");
+   res.redirect("/");
 });
 
+app.get("/personaldetails",(req,res)=> {
+    Accounts.findOne(details, (err,record) => { 
+        // if(err)
+        //     console.log(err);
+        // else 
+        //     // console.log(record);
+
+        res.render("personaldetails",{Accounts:Accounts, signal:signal, record:record});
+    });
+
+});
+    
 app.get("/view",(req,res)=> {
-    Accounts.find({},function(err,alltransaction){
-    Accounts.findOne({name:"japnit"},function(err,alltransaction){
+
+    Accounts.findOne(logindetails,function(err,alltransaction){
         if(err)
         {
             console.log(err);
         }
         else
         {
-            res.render("view",{Account:alltransaction});
+            res.render("view",{Account:alltransaction,record:rec});
         }    
     });
-});
 });
 
 app.post("/view",(req,res)=>{
@@ -218,20 +269,43 @@ app.post("/view",(req,res)=>{
     amt = parseInt(amt); 
     var type = req.body.trans_type;
     var date = new Date()
-   Accounts.findOne({name:"japnit"},function(err,alltransaction){
+    console.log(logindetails);
+   Accounts.findOne(logindetails,function(err,alltransaction){
         if(err)
         {
             console.log(err);
         }
         else
         {
-          total = alltransaction.total_amount;
-          total = parseInt(total);
-         if(type=="withdrawl") 
-         {
-            if(amt<total-1000)
+            total = alltransaction.total_amount;
+            // console.log(alltransaction);
+            total = parseInt(total);
+            if(type=="withdrawl") 
             {
-               Accounts.update({name:"japnit"},{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+                if(amt<total-1000)
+                {
+                Accounts.updateOne(logindetails,{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+                        if(err)
+                        { 
+                            console.log(err);
+                        }
+                        else
+                        {
+                            console.log(transaction);
+                        }
+                    });
+                    res.redirect("view");
+                }
+                else
+                {
+                res.render("alert")
+                }
+            }
+            else if(type=="deposit")
+            {
+                console.log(total);
+                console.log(amt);
+                Accounts.updateOne(logindetails,{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
                     if(err)
                     { 
                         console.log(err);
@@ -242,22 +316,7 @@ app.post("/view",(req,res)=>{
                     }
                 });
                 res.redirect("view");
-            }
-            else
-            {
-              res.render("alert")
-            }
-         }
-         else if(type=="deposit")
-         {
-            Accounts.update({name:"japnit"},{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
-                if(err)
-                 { 
-                    console.log(err);
-                 }
-                  });
-              res.redirect("view");
-         }  
+            }  
         }
     });   
 }); 

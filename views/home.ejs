@@ -1,10 +1,28 @@
 <%- include("partials/header") %>
 
-<a href="/">Home</a>
-<a href="/create_acc">Create Account</a>
-<a href="/transaction">Make Transaction</a>
-<a href="/signup">SignUp</a>
-<a href="/login">LogIn</a>
+<span class="container">
+<% if(signal == 1) { %>
+    <span class="navbarlinks">
+        <a href="/view">View Account Details</a>
+    </span>
+    <span class="navbarlinks">
+        <a href="/personaldetails">View Personal Details</a>
+    </span>
+    <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
+    <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
+<% }
+else { %>
+    <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
+    <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button>
+<% } %> 
+
+</span>
+
+<script>
+    function logout() {
+        signal = 0;
+    } 
+</script>
 
 <%- include("partials/footer") %>
 

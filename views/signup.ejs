@@ -1,40 +1,55 @@
 <%- include("partials/header") %>
 
-<a href="/">Home</a>
-<a href="/create_acc">Create Account</a>
-<a href="/view">View Account Details</a>
-<a href="/personaldetails">View Personal Details</a>
-<a href="/login" onclick="logout()">Logout</a>
 
-<h4>SIGN UP!!</h4>
+<div class="container">
 
-<script>
-  function logout() {
-  signal = 0;
-} 
-</script>
+<% if(signal == 1) { %>
+    <span class="navbarlinks">
+        <a href="/view">View Account Details</a>
+    </span>
+    <span class="navbarlinks">
+        <a href="/personaldetails">View Personal Details</a>
+    </span>
+    <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
+    <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
+<% }
+else { %>
+    <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
+    <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button>
+<% } %> 
+
+<h4><strong>Sign Up</strong></h4>
 
 <form onsubmit="return PassEquality(this)" action="/signup" method="POST">
-    <label for="email">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" placeholder="Name" required>
+    </div>
+    <div>
+        <label for="email">Email:</label>
         <input type="email" name="email" placeholder="Email ID" required>
-    </label>
-    <label for="createPass">Create a new Password:
-        <input type="password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+    </div>
+    <div>
+        <label for="createPass">Create a new Password:</label>
+        <input class="createPass" type="password" placeholder="Create Password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+        1. atleast 5 characters long
+        2. atleast 1 uppercase letter
+        3. atleast 1 lowercase letter
+        4. atleast 1 special character " required>  
+    </div>
+    <div>
+        <label for="confirmPass">Confirm the Password:</label>
+        <input type="password" placeholder="Confirm Password" name="p2" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
         1. atleast 5 characters long
         2. atleast 1 uppercase letter
         3. atleast 1 lowercase letter
         4. atleast 1 special character " required>
-    </label>
-    <label for="confirmPass">Confirm the Password:
-        <input type="password" name="p2" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
-        1. atleast 5 characters long
-        2. atleast 1 uppercase letter
-        3. atleast 1 lowercase letter
-        4. atleast 1 special character " required>
-    </label>
-    <button>Submit</button>
+    </div>
+    <div>
+        <button class="btn btn-primary">Sign Up</button>
+    </div>
 </form>
-<h6 class="message"></h6>
+</div>
 
 <script>
     function PassEquality(form)
