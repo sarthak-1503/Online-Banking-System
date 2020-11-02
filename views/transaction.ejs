@@ -1,6 +1,5 @@
 <%- include("partials/header") %>
 
-
 <script type="text/javascript">
   function preback(){
     window.history.forward();
@@ -10,8 +9,19 @@
 </script>
 
 <div class="container">
-  <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
-  <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button> 
+  <div class="navbar">
+    <span class="navbarlinks">
+        <a href="/">Home</a>
+    </span>
+    <span class="navbarlinks">
+        <a href="/create_acc">Create Account</a>
+    </span>
+    <span class="navbarlinks">
+        <a href="/transaction">Make Transaction</a>
+    </span>
+</div>
+  <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
+  <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
 
   <form id="transacsub" action="/view" method="POST">
     <input type="number" id="amt" placeholder="Amount" name="trans_amount">
@@ -24,19 +34,17 @@
     </form> 
 </div>
 
-
-
 <script>       
-        $(document).ready(function() { 
-          $("#cancel").click(function() { 
-                  alert("Transaction Canceled")
-                  window.location.replace("/");   
-              }); 
-          });  
+    $(document).ready(function() { 
+      $("#cancel").click(function() { 
+              alert("Transaction Canceled")
+              window.location.replace("/");   
+          }); 
+      });  
 
-          function logout() {
-            signal = 0;
-          } 
+      function logout() {
+        signal = 0;
+      } 
 </script> 
 
 

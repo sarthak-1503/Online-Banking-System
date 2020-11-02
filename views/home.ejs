@@ -1,6 +1,17 @@
 <%- include("partials/header") %>
 
 <span class="container">
+    <div class="navbar">
+        <span class="navbarlinks">
+            <a href="/">Home</a>
+        </span>
+        <span class="navbarlinks">
+            <a href="/create_acc">Create Account</a>
+        </span>
+        <span class="navbarlinks">
+            <a href="/transaction">Make Transaction</a>
+        </span>
+    </div>
 <% if(signal == 1) { %>
     <span class="navbarlinks">
         <a href="/view">View Account Details</a>
