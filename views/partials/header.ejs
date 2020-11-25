@@ -4,74 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Online Transactions</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/2635296004.js" crossorigin="anonymous"></script>
+    <title>Online Banking System</title>
 </head>
 <body>
-    <style>
-        body {
-            background-image: url("https://ronagpur.in/subdomain/bankguarantee/adminTemplate/admin/assets/demo/signin-bg-1.jpeg");
-            background-size: 100%;
-            background-repeat: no-repeat;
-        }
-        .container {
-            margin: 0px 125px;
-            color: rgb(145, 98, 231);
-            background-color: white;
-            padding: 5px 10px;
-            opacity: 0.83;
-        }
-        .buttons {
-            float: right;
-            margin: auto 2px;
-        }
-        .buttons {
-            cursor: pointer;
-            opacity: 1.0;
-        }
-        .navbarlinks {
-            margin: auto 7px;
-        }
-        a {
-            text-decoration: none;
-            color:rgb(39, 39, 206);
-        }
-        a:hover {
-            color: green;
-        }
-        #login {
-            background-color:rgb(112, 112, 241);
-        }
-        #signup {
-            background-color: rgb(241, 101, 101);
-        }
-        .navbar {
-            padding: 6px 6px;
-        }
-        img {
-            width: 160px;
-            height: 145px;
-        }
-    </style>
+    
 
-<div class="logo">
-    <img src='https://www.freelogodesign.org/file/app/client/thumb/24ac1b73-98e4-4d79-95f5-31d8032130fe_200x200.png?1603888598530'>
+
+
+<style>
+    .navbar{
+        background: #1A73E8;
+    }
+    #navlogout:focus{
+        outline:none;
+    }
+    #navlogout{
+        border:none;
+        background:  #1A73E8;
+    }
+    #backicon {
+        background-color: #1A73E8;
+        background-size: 100%;
+    }
+    #back {
+        color: white;
+        margin-left: 0.7rem;
+        margin-bottom:0.6rem;
+    }
+    #home {
+        color: white;
+    }
+    #home:hover {
+        cursor: pointer;
+        color:yellow;
+    }
+    .nav-link {
+        color:white;
+        float: left;
+    }
+    .nav-left {
+        margin-right: 0.8rem;
+        margin-left: 0.5rem;
+    }
+    .body {
+        background-color: rgb(161, 225, 255) !important;
+    }
+    ul {
+        margin: 0;
+    }
+</style>
+
+<div style="margin-left: 1.5rem;">
+    <a href="/"><img src='https://www.freelogodesign.org/file/app/client/thumb/24ac1b73-98e4-4d79-95f5-31d8032130fe_200x200.png?1603888598530' style="width: 8%; height: 5%;"></a>
 </div>
-
-<div class="container">
-
-    <div class="navbar">
-        <span class="navbarlinks">
-            <a href="/">Home</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/create_acc">Create Account</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/transaction">Make Transaction</a>
-        </span>
+<div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <i class="fa fa-home nav-left" style="margin-right: 0.8rem; font-size: 2rem;" aria-hidden="true" id="home" style="font-size: 2.2rem;" onclick="window.location.href='/'"></i>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item nav-left">
+                    <a class="nav-link active" href="/create_acc" style="font-weight:400; font-size: 1.2rem;">Open Bank Account</a>
+                </li>
+            </ul>
+            <%if(signal == 1) {%>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item nav-left">
+                        <a class="nav-link active" href="/view" style="font-weight:400; font-size: 1.2rem;">Account Details</a>
+                    </li> 
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item nav-left">
+                        <a class="nav-link active" href="/personaldetails" style="font-weight:400; font-size: 1.2rem;">Personal Details</a>
+                    </li>
+                </ul>
+            <%}%>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item nav-left">
+                    <a class="nav-link active" href="/transaction" style="font-weight:400; font-size: 1.2rem;">Make Transaction</a>
+                </li>
+            </ul>
+        </div>
+        
     </div>
-</div>
-
+   
+  
+    
     
 
     

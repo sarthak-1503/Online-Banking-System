@@ -1,76 +1,87 @@
 <%- include("partials/header") %>
 
-<style>
-    p {
-        width: 28%;
-        border: 2px solid black;
-        background: rgb(212, 127, 127);
-    }
-    .logo {
-        background-color: darkblue;
-        margin-left: 0;
-        margin-right: 0;
-        background-size: cover;
-        /* -webkit-box-sizing: border-box;
-        box-sizing: border-box; 
-        max-width: 100%; */
-    }
-</style>
+ <style>
+     .container {
+         width: 50%;
+         text-align: center;
+         margin: 2.8rem auto;
+         padding-top: 0.8rem;
+         padding-bottom: 0rem;
+     }
+     #login:hover {
+        border: 3px solid#007bff;
+        background-color: white;
+        color: #007bff;
+        font-weight: bold;
+     }
+     #createacc:hover {
+         text-decoration: none;
+         color: rgb(147, 207, 6);
+     }
+    
+ </style>
 
-<div class="container">
-    <div class="navbar">
-        <span class="navbarlinks">
-            <a href="/">Home</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/create_acc">Create Account</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/transaction">Make Transaction</a>
-        </span>
-    </div>
-    <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
-    <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button> 
-
-<div>
-    <h4><strong>Customer Login</strong></h4>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+        </li>  
+        <li class="nav-item">
+            <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+        </li>   
+        
+  </ul>
 </div>
 
-<form onclick="hideerror()" action="/login" method="POST">
-    <% if(f == -1)
-    { %>
-        <p id="error">Wrong Email or Password. Please try again!!</p>
-        <% f = 0;
-    } %>
-    <div>
-        <label for="Email">Email</label>
-        <input type="email" name="Email" placeholder="e.g. john@outlook.com" required>
-    </div>
-
-    <div>
-        <label for="Pass">Password</label>
-        <input class="createPass" type="password" placeholder="Password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
-        1. atleast 5 characters long
-        2. atleast 1 uppercase letter
-        3. atleast 1 lowercase letter
-        4. atleast 1 special character " required> 
-    </div>
-
-    <div>
-        <button>Log In</button>
-    </div>
-</form>
-
-<div>
-    Does not have a Login Account? Create now... <button onclick="window.location.href='/signup'">Sign Up</a>
-</div>
+</nav>
 </div>
 
-<script>
+
+    <div class="container" style="border: 2px solid black;">
+
+        <div style="font-size: 10rem;">
+            <i class="fas fa-user-circle" style="color: #007bff;"></i>
+        </div>
+
+        <%if(fromlogin == 1) {%>
+            <h5 style="margin:1rem; margin-bottom: 2rem; color:green">Wrong email id or password! Please try again...</h5>
+            <%fromlogin = 0;%>
+        <%}%>
+
+        <div style="text-align: center; margin: 1rem auto 2.5rem auto;">
+            <form action="/login" method="POST">
+           
+                <div>
+                    <div  style="text-align:center;">
+                    <input type="email" name="Email" placeholder="Email ID" style="width: 50%; height: 3rem; margin: 0.6rem auto;padding: 0.5rem;" required>
+                </div>
+            
+                <div  style="text-align:center; ">
+                    <input class="createPass" type="password" placeholder="Password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+                    1. atleast 8 characters long
+                    2. atleast 1 uppercase letter
+                    3. atleast 1 lowercase letter
+                    4. atleast 1 special character " style="width: 50%; height: 3rem; margin: 0.6 auto; padding: 0.5rem; " required> 
+                    
+                    <button id="login" class="btn btn-primary btn-lg" style="width: 50%; height: 3.5rem; margin-top: 0.8rem;">Log in</button>
+                </div>
+                
+                <div style="padding-right: 19rem; padding-left: 2.2rem; margin-top: 2rem;">
+                    <a href="/signup" id="createacc" style="font-size: 1.2rem;">Create Account</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    
+    
+
+<!-- <script>
     function hideerror() {
         let error = document.querySelector("#error");
         error.style.visibility = hidden;
     }
-</script>
+</script> -->
 
 <%- include("partials/footer") %>

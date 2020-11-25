@@ -1,5 +1,29 @@
 <%- include("partials/header") %>
 
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav ml-auto">
+      <%if(signal == 1) {%>
+          <li class="nav-item">
+              <a class="nav-link active" style="font-weight:400; font-size: 1.2rem;"><strong>Hi <%= record.name %>!</strong></a>
+          </li>  
+          <li class="nav-item">
+              <a class="nav-link active" href="/logout" style="font-weight:400; font-size: 1.2rem;">Logout</a>
+          </li> 
+      <%}else{%>
+          <li class="nav-item">
+              <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+          </li>  
+          <li class="nav-item">
+              <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+          </li>   
+      <%}%>
+      
+</ul>
+</div>
+
+</nav>
+</div>
+
 <script type="text/javascript">
   function preback(){
     window.history.forward();
@@ -8,43 +32,38 @@
   window.onunload=function(){null};
 </script>
 
-<div class="container">
-  <div class="navbar">
-    <span class="navbarlinks">
-        <a href="/">Home</a>
-    </span>
-    <span class="navbarlinks">
-        <a href="/create_acc">Create Account</a>
-    </span>
-    <span class="navbarlinks">
-        <a href="/transaction">Make Transaction</a>
-    </span>
-</div>
-  <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
-  <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
 
-  <form id="transacsub" action="/view" method="POST">
-    <input type="number" id="amt" placeholder="Amount" name="trans_amount">
-      <select name="trans_type">
-        <option value="withdrawl">Withdrawl</option>
-        <option value="deposit">Deposit</option>
-      </select>
-      <button id="cancel" formaction="/" formmethod="get">Cancel</button> 
-      <button id="pay">Confirm</button>
-    </form> 
-</div>
+ <div class="container" style="text-align: center; margin: 6rem auto; border: 2px solid black; width: 40%;">
+  <div style="text-align: center; margin: 3rem auto">
+    <h2>Make Transaction</h2>
+  </div>
+  <div class="container" style="text-align: left; margin: 4rem 11.7rem; ">
+    <form id="transacsub" action="/view" method="POST">
+      <div style="margin: 1.5rem auto;">
+        <select name="trans_type" style="width: 40%;">
+          <option value="withdrawl">Withdrawl</option>
+          <option value="deposit">Deposit</option>
+        </select>
+      </div>
+      <div style="margin: 1.5rem auto;">
+        <input type="number" id="amt" placeholder="Amount" name="trans_amount" style="width: 40%;">
+      </div>
+        <div style="margin: 1.5rem auto; ;">
+          <button id="pay">Confirm</button>
+          <button id="cancel" formaction="/" formmethod="get">Cancel</button> 
+        </div>
+      </form>
+  </div>
+ </div> 
+
 
 <script>       
     $(document).ready(function() { 
       $("#cancel").click(function() { 
-              alert("Transaction Canceled")
+              alert("Transaction Cancelled")
               window.location.replace("/");   
           }); 
       });  
-
-      function logout() {
-        signal = 0;
-      } 
 </script> 
 
 

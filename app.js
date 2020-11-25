@@ -1,14 +1,15 @@
 let express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
-    // nodemailer = require("nodemailer"),
     bcrypt = require("bcrypt"),
     nodemon = require("nodemon"),
+    session = require("express-session"),
     app = express();
 
 const port = 80;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({secret:"yes its secret"}));
 mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
 
 let transactionSchema = new mongoose.Schema({
@@ -32,41 +33,51 @@ let AccountsSchema = new mongoose.Schema({
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
+const requireLogin = (req,res,next)=>{
+    req.session.returnto = req.url;
+    if(!req.session.user_id)
+    {
+        return res.redirect("/login");
+    }
+    next()
+};
+
 let signal = 0,
     logindetails = {},
     details={},
-    saltRounds = 5,
-    f=0,
-    rec;
+    saltRounds = 5;
+let f=0,fromlogin=0;
 
-app.get("/",(req,res)=> {
-
-    // console.log("signal: "+signal);
-    if(logindetails != null)
+app.get("/",async(req,res)=> {
+    
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    
+    if(record != null)
     {
-        Accounts.findOne(logindetails, (err,record)=> {
-            if(err)
-            {
-                console.log(err);
-            }
-            else
-            {
-                rec = record;
-                res.render("home",{signal:signal, record:record});           
-            }
-        });
+        signal = 1;
+        res.render("home",{signal:signal, record:record});
     }
     else
     {
+        signal = 0;
         res.render("home",{signal:signal});
+    }
+
+});
+
+app.get("/login",async(req,res)=> {
+
+    if(req.session.user_id != null)
+    {
+        res.render("login",{signal:signal,fromlogin:fromlogin})
+    }
+    else
+    {
+        res.render("login",{signal:signal,fromlogin:fromlogin});
     }
 });
 
-app.get("/login",(req,res)=> {
-    res.render("login",{f:f});
-});
-
-app.post("/login",(req,res)=> {
+app.post("/login",async(req,res)=> {
     let email = req.body.Email,
         pass = req.body.p1;
     
@@ -74,134 +85,110 @@ app.post("/login",(req,res)=> {
         email: email,
         password: pass,
     };
-    // console.log("login="+logindetails);
 
-    Accounts.findOne({email: email},(err,record)=> {
-        if(err)
-        {
-            console.log(err);
-        }
-        else    
-        {
-            // console.log(record);
+    let record = await Accounts.findOne({email: email});
+    
+    if(record == null)
+    {
+        signal = 0;
+        console.log("No account with this email exists!!");
+        res.redirect("/signup");
+    }
+    
+    else
+    {
+        let check = await bcrypt.compare(pass,record.password);
 
-            if(record == null)
-            {
-                console.log("No account with this email exists!!");
-                f=-1;
-                res.redirect("/login");
-            }
+        if(check == true)
+        {
+            console.log("LOGIN DONE!!");
+            signal = 1;
+            fromlogin = 0;
+            req.session.user_id = record._id;
+            let url = req.session.returnto;
+
+            if(url != null)
+                res.redirect(url);
             else
-            {
-                bcrypt.hash(record.password, saltRounds, (err,hash)=> {
-                    bcrypt.compare(pass, hash, (err,result)=> {
-                        if(result)
-                        {
-                            console.log("LOGIN DONE!!");
-                            if(signal == 2)
-                            {
-                                signal = 1;
-                                res.redirect("/create_acc");
-                            }
-                            else if(signal == 3)
-                            {
-                                signal = 1;
-                                res.redirect("/transaction");
-                            }
-                            else
-                            {
-                                signal = 1;
-                                res.redirect("/");
-                            }
-                        }
-                        else
-                        {
-                            signal = 0;
-                            console.log("LOGIN PENDING!!");
-                            f=-1;
-                            res.redirect("/login");
-                        }
-                    });
-                });
-            }
-            
+                res.redirect("/");
         }
-    });
+        else
+        {
+            signal = 0;
+            fromlogin = 1;
+            console.log("Wrong email or password!!");
+            res.redirect("/login");
+        }
+    }
 });
 
 app.get("/signup",(req,res)=> {
-    res.render("signup",{signal: signal});
+    res.render("signup",{signal: signal,f:f});
 });
 
 app.post("/signup",(req,res)=> {
-    let email = req.body.email,
-        pass = req.body.p1,
-        name = req.body.name;
+    let email = req.body.email;
+    let  create = req.body.p1;
+    let confirm = req.body.p2;
+    let name = req.body.name;
+    let pass = create;
+    
     var totalAmount = 0;
     
-    bcrypt.genSalt(saltRounds, function(err,salt) {
-        bcrypt.hash(pass, salt, function(err,hash) {
-            if(err)
-                console.log(err);
-            else
-                pass = hash;
-                
-        });
-    });
+    if(create == confirm) {
+
+        bcrypt.genSalt(saltRounds, function(err,salt) {
+            bcrypt.hash(pass, salt, function(err,hash) {
+                if(err)
+                    console.log(err);
+                else
+                {
+                    pass = hash;
+                    logindetails = {
+                        name: name,
+                        email: email, 
+                        password: pass,
+                        total_amount: totalAmount
+                    };
+                    
+                    Accounts.create(logindetails, (err,logindetails)=> {
+                        if(err)
+                            console.log(err);
+                        else
+                            console.log(logindetails);
+                    });
+                    console.log("Account created successfully.");
+                    signal = 1;
+                    f=0;
+                    res.redirect("/");
+                }
+                    
+            });
+        });    
+    }
+
+    else {
+        signal = 0;
+        f=1;
+        console.log("Passwords don't match!! try again...")
+        res.redirect("/signup");
+    }
+
+});
+
+app.get("/transaction",requireLogin,async(req,res)=> {
+
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("transaction",{signal:signal,record:record});
+});
+
+app.get("/create_acc",requireLogin,async(req,res)=> {
     
-    logindetails = {
-        name: name,
-        email: email, 
-        password: pass,
-        total_amount: totalAmount
-    };
-    console.log(logindetails);
-    Accounts.create(logindetails, (err,logindetails)=> {
-        if(err)
-            console.log(err);
-        else
-            console.log(logindetails);
-    });
-    console.log("Password created successfully.");
-    signal = 1;
-    res.redirect("/");
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("openaccount",{signal:signal,record:record});
 });
 
-app.get("/transaction",(req,res)=> {
-    if(signal != 1)
-    {
-        signal = 3;
-        res.redirect("/login");
-    }
-    else
-    {
-        // console.log("transaction:"+logindetails);
-        Accounts.findOne(logindetails,function(err,payments){
-            if(err)
-            {
-                console.log(err);
-            }
-            else
-            {
-                res.render("transaction",{Account:payments,signal:signal,record:rec});
-            }    
-        });
-    }
-});
-
-app.get("/create_acc",(req,res)=> {
-    if(signal != 1)
-    {
-        signal = 2;
-        res.redirect("/login");
-    }
-    else
-    {
-        res.render("openaccount",{signal:signal,record:rec});
-    }
-});
-
-app.post("/create_acc",(req,res)=> {
+app.post("/create_acc",async(req,res)=> {
 
     var name =  req.body.name;
     var address =  req.body.address;
@@ -223,7 +210,9 @@ app.post("/create_acc",(req,res)=> {
         total_amount:total_amount
     }
 
-   Accounts.updateOne(logindetails,{$set: details},(err,account_created)=> {
+    let record = await Accounts.findOne({_id:req.session.user_id});
+
+   Accounts.updateOne(record,{$set: details},(err,rec)=> {
        if(err)
        {
            console.log(err);
@@ -231,81 +220,38 @@ app.post("/create_acc",(req,res)=> {
        else
        {
            console.log('Account Created');
-
+           res.redirect("/");
        }
    });
-   res.redirect("/");
 });
 
-app.get("/personaldetails",(req,res)=> {
-    Accounts.findOne(details, (err,record) => { 
-        // if(err)
-        //     console.log(err);
-        // else 
-        //     // console.log(record);
-
-        res.render("personaldetails",{Accounts:Accounts, signal:signal, record:record});
-    });
-
+app.get("/personaldetails",requireLogin,async(req,res)=> {
+    
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("personaldetails",{signal:signal,record:record});
 });
     
-app.get("/view",(req,res)=> {
-
-    Accounts.findOne(logindetails,function(err,alltransaction){
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            res.render("view",{Account:alltransaction,record:rec});
-        }    
-    });
+app.get("/view",async(req,res)=> {
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    let Account = record;
+    res.render("view",{Account:Account,record:record,signal:signal});
 });
 
-app.post("/view",(req,res)=>{
+app.post("/view",async(req,res)=>{
     var total;
     var amt = req.body.trans_amount;
     amt = parseInt(amt); 
     var type = req.body.trans_type;
     var date = new Date()
-    console.log(logindetails);
-   Accounts.findOne(logindetails,function(err,alltransaction){
-        if(err)
+    let record = await Accounts.findOne({_id:req.session.user_id});
+
+    total = record.total_amount;
+    total = parseInt(total);
+    if(type=="withdrawl") 
+    {
+        if(amt>0 && amt<total)
         {
-            console.log(err);
-        }
-        else
-        {
-            total = alltransaction.total_amount;
-            // console.log(alltransaction);
-            total = parseInt(total);
-            if(type=="withdrawl") 
-            {
-                if(amt<total-1000)
-                {
-                Accounts.updateOne(logindetails,{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
-                        if(err)
-                        { 
-                            console.log(err);
-                        }
-                        else
-                        {
-                            console.log(transaction);
-                        }
-                    });
-                    res.redirect("view");
-                }
-                else
-                {
-                res.render("alert")
-                }
-            }
-            else if(type=="deposit")
-            {
-                console.log(total);
-                console.log(amt);
-                Accounts.updateOne(logindetails,{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+            Accounts.updateOne(record,{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
                     if(err)
                     { 
                         console.log(err);
@@ -313,13 +259,37 @@ app.post("/view",(req,res)=>{
                     else
                     {
                         console.log(transaction);
+                        res.redirect("/view");
                     }
                 });
-                res.redirect("view");
-            }  
+            
         }
-    });   
+        else
+        {
+            res.render("alert");
+        }
+    }
+    else if(type=="deposit")
+    {
+        Accounts.updateOne(record,{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+            if(err)
+            { 
+                console.log(err);
+            }
+            else
+            {
+                console.log(transaction);
+                res.redirect("/view");
+            }
+        });
+    }  
+ 
 }); 
+
+app.get("/logout",(req,res)=> {
+    req.session.destroy();
+    res.redirect("/");
+})
 
 app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");

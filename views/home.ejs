@@ -1,39 +1,41 @@
 <%- include("partials/header") %>
 
-<span class="container">
-    <div class="navbar">
-        <span class="navbarlinks">
-            <a href="/">Home</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/create_acc">Create Account</a>
-        </span>
-        <span class="navbarlinks">
-            <a href="/transaction">Make Transaction</a>
-        </span>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <%if(signal == 1) {%>
+            <li class="nav-item">
+                <a class="nav-link active" style="font-weight:400; font-size: 1.2rem;"><strong>Hi <%= record.name %>!</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout" style="font-weight:400; font-size: 1.2rem;">Logout</a>
+            </li>
+        <%}else{%>
+            <li class="nav-item">
+                <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+            </li>
+        <%}%>
+
+  </ul>
+</div>
+
+</nav>
+</div>
+
+<div class="container" style="text-align: center; margin: 11rem auto; border: 2px solid red; width: 30%; padding: 2rem;">
+    <!-- <div>
+        <h2>Efforts by</h2>
+    </div> -->
+    <div style="margin-bottom:1rem;">
+        <h2>Sarthak Arora</h2>
     </div>
-<% if(signal == 1) { %>
-    <span class="navbarlinks">
-        <a href="/view">View Account Details</a>
-    </span>
-    <span class="navbarlinks">
-        <a href="/personaldetails">View Personal Details</a>
-    </span>
-    <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
-    <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
-<% }
-else { %>
-    <button class="buttons" id="login" onclick="window.location.href='/login'"><strong>Log In</strong></button>
-    <button class="buttons" id="signup" onclick="window.location.href='/signup'"><strong>Sign Up</strong></button>
-<% } %> 
+    <div style="margin-top:1rem;">
+        <h2>2K18/CO/325</h2>
+    </div>
+</div>
 
-</span>
-
-<script>
-    function logout() {
-        signal = 0;
-    } 
-</script>
 
 <%- include("partials/footer") %>
 

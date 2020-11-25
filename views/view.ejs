@@ -1,40 +1,92 @@
 <%- include("partials/header") %>
 
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <%if(signal == 1) {%>
+            <li class="nav-item">
+                <a class="nav-link active" style="font-weight:400; font-size: 1.2rem;"><strong>Hi <%= record.name %>!</strong></a>
+            </li>  
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout" style="font-weight:400; font-size: 1.2rem;">Logout</a>
+            </li> 
+        <%}else{%>
+            <li class="nav-item">
+                <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+            </li>  
+            <li class="nav-item">
+                <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+            </li>   
+        <%}%>
+        
+  </ul>
+</div>
+
+</nav>
+</div>
+
 <style>
-    table,td,th {
-        border: 2px solid black;
+    .container {
+        text-align: center;
+        margin: 4rem auto;
     }
+    tr {
+        border: 1px solid rgb(179, 174, 174);
+    }
+    table {
+        border: 2px solid black;
+        margin: 4rem auto 8rem auto;
+    }
+    
+    th {
+        border-bottom: 2px solid black;
+        text-align: left;
+    }
+    th,td {
+        padding: 0.8rem 8rem;
+        border: 1.5px solid rgb(187, 180, 180);
+    }
+    th {
+        padding-left: 2rem;
+    }
+    
 </style>
 
-
 <div class="container">
-    <button class="buttons" click="logout()" onclick="window.location.href='/'"><strong>Log Out</strong></button>
-    <button class="buttons"><strong>Hi <%= record.name %>!</strong></button>
-
-    <table>
-        <tr>
-            <th>S.No.</th>
-            <th>Amount</th>
-            <th>Type of Transaction</th>
-            <th>Date and Time</th>
-        </tr>
-    
-             
-            <%var i,j,count=0;%>
-    
-                <%for(j=0;j<Account.transactions.length; j++){%>
-                <tr>      
-                    <td> <%count=count+1%>
-                         <%=count%></td>
-                    <td><%=Account.transactions[j].amount%></td>
-                    <td><%=Account.transactions[j].typeOftransac%></td>
-                    <td><%var day = Account.transactions[j].dateANDtime.getDate()%>
-                        <%var month = Account.transactions[j].dateANDtime.getMonth()%>
-                        <%var year = Account.transactions[j].dateANDtime.getFullYear()%>
-                        <%=day + "-" + month + "-" + year%></td>
-                </tr>
-                <%}%>
+    <div style="margin-top:4.5rem">
+        <h2>Customer Transaction History</h2>
+    </div>
+    <%if(Account.transactions.length) {%>
+        <table>
+            <tr>
+                <th>S.No.</th>
+                <th>Amount</th>
+                <th>Type of Transaction</th>
+                <th>Date and Time</th>
+            </tr>
+        
+                 
+                <%var i,j,count=0;%>
+        
+                    <%for(j=0;j<Account.transactions.length; j++){%>
+                    <tr>      
+                        <td> <%count=count+1%>
+                             <%=count%></td>
+                        <td><%=Account.transactions[j].amount%></td>
+                        <td><%=Account.transactions[j].typeOftransac%></td>
+                        <td><%var day = Account.transactions[j].dateANDtime.getDate()%>
+                            <%var month = Account.transactions[j].dateANDtime.getMonth()%>
+                            <%var year = Account.transactions[j].dateANDtime.getFullYear()%>
+                            <%=day + "-" + month + "-" + year%></td>
+                    </tr>
+                    <%}%>
+            </table>
+    <%} else {%>
+        <h4 style="color: green; margin: 5rem auto;" >No transaction history found!!</h4>
+    <%}%>
   </div>
+
+
 
     
 
