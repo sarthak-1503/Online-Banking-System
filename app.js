@@ -132,7 +132,6 @@ app.post("/signup",(req,res)=> {
     let confirm = req.body.p2;
     let name = req.body.name;
     let pass = create;
-    
     var totalAmount = 0;
     
     if(create == confirm) {
@@ -161,8 +160,7 @@ app.post("/signup",(req,res)=> {
                     signal = 1;
                     f=0;
                     res.redirect("/");
-                }
-                    
+                }   
             });
         });    
     }
@@ -173,7 +171,6 @@ app.post("/signup",(req,res)=> {
         console.log("Passwords don't match!! try again...")
         res.redirect("/signup");
     }
-
 });
 
 app.get("/transaction",requireLogin,async(req,res)=> {
