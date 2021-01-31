@@ -1,21 +1,24 @@
 let express = require("express"),
     mongoose = require("mongoose"),
     bodyParser = require("body-parser"),
-    // nodemailer = require("nodemailer"),
     bcrypt = require("bcrypt"),
+    nodemon = require("nodemon"),
+    session = require("express-session"),
     app = express();
+
 const port = 80;
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({secret:"yes its secret"}));
 mongoose.connect("mongodb://localhost/obsdb",{useNewUrlParser: true,useUnifiedTopology:true});
-//console.log(mongoose.connect.readyState);
+
 let transactionSchema = new mongoose.Schema({
     amount: Number,
     typeOftransac: String,
     dateANDtime : Date
 });
 let AccountsSchema = new mongoose.Schema({
-    name: String,
+    name: String, 
     address: String,
     Mobileno1: Number,
     Mobileno2: Number,
@@ -30,142 +33,159 @@ let AccountsSchema = new mongoose.Schema({
 });
 let Accounts = mongoose.model("Accounts",AccountsSchema);
 
-
-app.get("/",(req,res)=> {
-     res.render('home');
-});
-
-let signal=0,
-    details,
-    logindetails,
-    saltRounds = 10;
-
-
-app.get("/login",(req,res)=> {
-    signal = 1;
-    res.render("login");
-});
-
-app.get("/signup",(req,res)=> {
-    res.render("signup",{signal: signal});
-});
-app.post("/signup",(req,res)=> {
-    let email = req.body.email,
-        pass = req.body.password;
-    
-    bcrypt.genSalt(saltRounds, function(err,salt) {
-        bcrypt.hash(pass, salt, function(err,hash) {
-            if(err)
-                console.log(err);
-            else
-                pass = hash;
-        });
-    });
-    
-    logindetails = {
-        email: email, 
-        password: pass
-    };
-    Accounts.create(logindetails, (err,logindetails)=> {
-        if(err)
-            console.log(err);
-        else
-            console.log(logindetails);
-    });
-    console.log("Password created successfully.");
-    res.redirect("/login");
-});
-
-app.get("/accountactivity",(req,res)=> {
-    if(signal == 0)
+const requireLogin = (req,res,next)=>{
+    req.session.returnto = req.url;
+    if(!req.session.user_id)
     {
-        alert("You need to be logged in first!!");
-        res.render("login");
+        return res.redirect("/login");
+    }
+    next()
+};
+
+let signal = 0,
+    logindetails = {},
+    details={},
+    saltRounds = 5;
+let f=0,fromlogin=0;
+
+app.get("/",async(req,res)=> {
+    
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    
+    if(record != null)
+    {
+        signal = 1;
+        res.render("home",{signal:signal, record:record});
     }
     else
     {
-        res.render("accountactivity",{Accounts:Accounts, signal:signal});   
+        signal = 0;
+        res.render("home",{signal:signal});
+    }
+
+});
+
+app.get("/login",async(req,res)=> {
+
+    if(req.session.user_id != null)
+    {
+        res.render("login",{signal:signal,fromlogin:fromlogin})
+    }
+    else
+    {
+        res.render("login",{signal:signal,fromlogin:fromlogin});
     }
 });
-app.post("/accountactivity",(req,res)=> {
-    let email = req.body.email,
-        pass = req.body.password;
+
+app.post("/login",async(req,res)=> {
+    let email = req.body.Email,
+        pass = req.body.p1;
     
     logindetails = {
         email: email,
-        password: pass
+        password: pass,
     };
-    Accounts.find({email: email},(err,record)=> {
-        if(err)
-            console.log(err);
-        else   
-        {
-            console.log(record);
-            if(record.estimatedDocumentCount() == 0)
-            {
-                console.log("LOGIN AGAIN!!");
-                res.render("login");
-            }
-            else
-            {
-                bcrypt.compare(pass, record.password, (err,result)=> {
-                    if(result)
-                    {
-                        console.log("LOGIN DONE!!");
-                        res.render("transaction",{signal: signal, check: record});
-                        signal = 1;
-                    }
-                    else
-                    {
-                        console.log("LOGIN PENDING!!");
-                        res.render("login");
-                    }
-                });
-            }
-        }
-    });
-});
 
-app.get("/transaction",(req,res)=> {
-    Accounts.find({},function(err,payments){
-        if(err)
+    let record = await Accounts.findOne({email: email});
+    
+    if(record == null)
+    {
+        signal = 0;
+        console.log("No account with this email exists!!");
+        res.redirect("/signup");
+    }
+    
+    else
+    {
+        let check = await bcrypt.compare(pass,record.password);
+
+        if(check == true)
         {
-            console.log(err);
+            console.log("LOGIN DONE!!");
+            signal = 1;
+            fromlogin = 0;
+            req.session.user_id = record._id;
+            let url = req.session.returnto;
+
+            if(url != null)
+                res.redirect(url);
+            else
+                res.redirect("/");
         }
         else
         {
-            res.render("transaction",{Account:payments});
-        }    
-    });
-})
-
-app.get("/personaldetails",(req,res)=> {
-    Accounts.findOne(details, (err,record) => { 
-
-        if(err)
-            console.log(err);
-        else 
-            console.log(record);
-
-        res.render("personaldetails",{Accounts:Accounts, signal:signal, record:record});
-    });
-
-});
-
-app.get("/create_acc",(req,res)=> {
-    if(signal == 0)
-    {
-        res.render("login");
-        alert("You need to be logged in first!!");
-        res.redirect("/login");
-    }
-    else
-    {
-        res.render("openaccount");
+            signal = 0;
+            fromlogin = 1;
+            console.log("Wrong email or password!!");
+            res.redirect("/login");
+        }
     }
 });
 
-app.post("/create_acc",(req,res)=> {
+app.get("/signup",(req,res)=> {
+    res.render("signup",{signal: signal,f:f});
+});
+
+app.post("/signup",(req,res)=> {
+    let email = req.body.email;
+    let  create = req.body.p1;
+    let confirm = req.body.p2;
+    let name = req.body.name;
+    let pass = create;
+    var totalAmount = 0;
+    
+    if(create == confirm) {
+
+        bcrypt.genSalt(saltRounds, function(err,salt) {
+            bcrypt.hash(pass, salt, function(err,hash) {
+                if(err)
+                    console.log(err);
+                else
+                {
+                    pass = hash;
+                    logindetails = {
+                        name: name,
+                        email: email, 
+                        password: pass,
+                        total_amount: totalAmount
+                    };
+                    
+                    Accounts.create(logindetails, (err,logindetails)=> {
+                        if(err)
+                            console.log(err);
+                        else
+                            console.log(logindetails);
+                    });
+                    console.log("Account created successfully.");
+                    signal = 1;
+                    f=0;
+                    res.redirect("/");
+                }   
+            });
+        });    
+    }
+
+    else {
+        signal = 0;
+        f=1;
+        console.log("Passwords don't match!! try again...")
+        res.redirect("/signup");
+    }
+});
+
+app.get("/transaction",requireLogin,async(req,res)=> {
+
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("transaction",{signal:signal,record:record});
+});
+
+app.get("/create_acc",requireLogin,async(req,res)=> {
+    
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("openaccount",{signal:signal,record:record});
+});
+
+app.post("/create_acc",async(req,res)=> {
 
     var name =  req.body.name;
     var address =  req.body.address;
@@ -174,17 +194,22 @@ app.post("/create_acc",(req,res)=> {
     var Mobileno1 = req.body.Mobileno1;
     var Mobileno2 = req.body.Mobileno2;
     var Phoneno = req.body.Phoneno;
+    var total_amount = 0;
 
-    var details = {
-       name:name,
-       address:address,
-       email: email,
-       gender:gender,
-       Mobileno1:Mobileno1,
-       Mobileno2:Mobileno2,
-       Phoneno:Phoneno
-   };
-   Accounts.update(logindetails,{$set: details},(err,account_created)=> {
+    details = {
+        name: name,
+        address: address,
+        email: email,
+        gender: gender,
+        Mobileno1: Mobileno1,
+        Mobileno2: Mobileno2,
+        Phoneno: Phoneno,
+        total_amount:total_amount
+    }
+
+    let record = await Accounts.findOne({_id:req.session.user_id});
+
+   Accounts.updateOne(record,{$set: details},(err,rec)=> {
        if(err)
        {
            console.log(err);
@@ -192,46 +217,38 @@ app.post("/create_acc",(req,res)=> {
        else
        {
            console.log('Account Created');
+           res.redirect("/");
        }
    });
-   res.redirect("/accountactivity");
 });
 
-app.get("/view",(req,res)=> {
-    Accounts.find({},function(err,alltransaction){
-    Accounts.findOne({name:"japnit"},function(err,alltransaction){
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            res.render("view",{Account:alltransaction});
-        }    
-    });
+app.get("/personaldetails",requireLogin,async(req,res)=> {
+    
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    res.render("personaldetails",{signal:signal,record:record});
 });
+    
+app.get("/view",async(req,res)=> {
+    let record = await Accounts.findOne({_id:req.session.user_id});
+    let Account = record;
+    res.render("view",{Account:Account,record:record,signal:signal});
 });
 
-app.post("/view",(req,res)=>{
+app.post("/view",async(req,res)=>{
     var total;
     var amt = req.body.trans_amount;
     amt = parseInt(amt); 
     var type = req.body.trans_type;
     var date = new Date()
-   Accounts.findOne({name:"japnit"},function(err,alltransaction){
-        if(err)
+    let record = await Accounts.findOne({_id:req.session.user_id});
+
+    total = record.total_amount;
+    total = parseInt(total);
+    if(type=="withdrawl") 
+    {
+        if(amt>0 && amt<total)
         {
-            console.log(err);
-        }
-        else
-        {
-          total = alltransaction.total_amount;
-          total = parseInt(total);
-         if(type=="withdrawl") 
-         {
-            if(amt<total-1000)
-            {
-               Accounts.update({name:"japnit"},{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+            Accounts.updateOne(record,{$set:{total_amount:total-amt},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
                     if(err)
                     { 
                         console.log(err);
@@ -239,28 +256,37 @@ app.post("/view",(req,res)=>{
                     else
                     {
                         console.log(transaction);
+                        res.redirect("/view");
                     }
                 });
-                res.redirect("view");
+            
+        }
+        else
+        {
+            res.render("alert");
+        }
+    }
+    else if(type=="deposit")
+    {
+        Accounts.updateOne(record,{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
+            if(err)
+            { 
+                console.log(err);
             }
             else
             {
-              res.render("alert")
+                console.log(transaction);
+                res.redirect("/view");
             }
-         }
-         else if(type=="deposit")
-         {
-            Accounts.update({name:"japnit"},{$set:{total_amount:(total+amt)},$push:{transactions:[{amount:amt,typeOftransac:type,dateANDtime:date}]}},function(err,transaction){
-                if(err)
-                 { 
-                    console.log(err);
-                 }
-                  });
-              res.redirect("view");
-         }  
-        }
-    });   
+        });
+    }  
+ 
 }); 
+
+app.get("/logout",(req,res)=> {
+    req.session.destroy();
+    res.redirect("/");
+})
 
 app.listen(port,()=> {
     console.log("THE SERVER IS LISTENING!!");

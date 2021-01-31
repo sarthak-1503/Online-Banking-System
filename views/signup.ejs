@@ -1,58 +1,90 @@
 <%- include("partials/header") %>
 
-<a href="/">Home</a>
-<a href="/create_acc">Create Account</a>
-<a href="/view">View Account Details</a>
-<a href="/personaldetails">View Personal Details</a>
-<a href="/login" onclick="logout()">Logout</a>
-
-<h4>SIGN UP!!</h4>
-
-<script>
-  function logout() {
-  signal = 0;
-} 
-</script>
-
-<form onsubmit="return PassEquality(this)" action="/signup" method="POST">
-    <label for="email">
-        <input type="email" name="email" placeholder="Email ID" required>
-    </label>
-    <label for="createPass">Create a new Password:
-        <input type="password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
-        1. atleast 5 characters long
-        2. atleast 1 uppercase letter
-        3. atleast 1 lowercase letter
-        4. atleast 1 special character " required>
-    </label>
-    <label for="confirmPass">Confirm the Password:
-        <input type="password" name="p2" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
-        1. atleast 5 characters long
-        2. atleast 1 uppercase letter
-        3. atleast 1 lowercase letter
-        4. atleast 1 special character " required>
-    </label>
-    <button>Submit</button>
-</form>
-<h6 class="message"></h6>
-
-<script>
-    function PassEquality(form)
-    {
-        var create = form.p1.value;
-        var Confirm = form.p2.value;
-        
-        if(create != Confirm)
-        {
-            alert("Passwords don't match. Please try again.")
-            return false;
-        }
-        else    
-        {
-            signal = 1;
-            return true;
-        }
+<style>
+    .container {
+        width: 50%;
+        text-align: center;
+        margin: 2.8rem auto;
+        padding-top: 0.8rem;
+        padding-bottom: 0rem;
     }
-</script>
+    #signup:hover {
+       border: 3px solid#dc3545;
+       background-color: white;
+       color: #dc3545;
+       font-weight: bold;
+    }
+    #createacc:hover {
+        text-decoration: none;
+        color: blue;
+    }
+    #createacc:visited {
+        text-decoration: none;
+        color: red;
+    }
+</style>
+
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+        </li>  
+        <li class="nav-item">
+            <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+        </li>  
+  </ul>
+</div>
+
+</nav>
+</div>
+
+   <div class="container" style="border: 2px solid black;">
+
+       <div style="font-size: 10rem;">
+           <i class="fas fa-user-circle" style="color: #007bff;"></i>
+       </div>
+
+       <%if(f == 1) {%>
+            <h5 style="margin:1rem; margin-bottom: 2rem; color:green">Passwords don't match! Please try again...</h5>
+            <%f = 0;%>
+        <%}%>
+
+       <div style="text-align: center; margin: 1rem auto 2.5rem auto;">
+           <form action="/signup" method="POST">
+          
+               <div>
+                   <div  style="text-align:center;">
+                   <input type="text" name="name" placeholder="Name" style="width: 50%; height: 3rem; margin: 0.6rem auto;padding: 0.5rem;" required>
+               </div>
+
+               <div>
+                    <div  style="text-align:center;">
+                    <input type="email" name="email" placeholder="Email ID" style="width: 50%; height: 3rem; margin: 0.6rem auto;padding: 0.5rem;" required>
+                </div>
+           
+               <div  style="text-align:center; ">
+                   <input class="createPass" type="password" placeholder="Create Password" name="p1" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+                   1. atleast 8 characters long
+                   2. atleast 1 uppercase letter
+                   3. atleast 1 lowercase letter
+                   4. atleast 1 special character " style="width: 50%; height: 3rem; margin: 0.6rem auto; padding: 0.5rem;" required> 
+               </div>
+
+               <div  style="text-align:center; ">
+                    <input class="createPass" type="password" placeholder="Confirm Password" name="p2" minlength="8" maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" title="Password must follow the criteria:
+                    1. atleast 8 characters long
+                    2. atleast 1 uppercase letter
+                    3. atleast 1 lowercase letter
+                    4. atleast 1 special character " style="width: 50%; height: 3rem; margin: 0.6rem auto; padding: 0.5rem; " required> 
+                    
+                    <button id="signup" class="btn btn-danger btn-lg" style="width: 50%; height: 3.5rem; margin-top: 0.6rem;">Sign up</button>
+                </div>
+               
+
+           </form>
+       </div>
+
+   </div>
 
 <%- include("partials/footer") %>

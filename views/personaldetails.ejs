@@ -1,53 +1,103 @@
 <%- include("partials/header") %>
 
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <%if(signal == 1) {%>
+            <li class="nav-item">
+                <a class="nav-link active" style="font-weight:400; font-size: 1.2rem;"><strong>Hi <%= record.name %>!</strong></a>
+            </li>  
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout" style="font-weight:400; font-size: 1.2rem;">Logout</a>
+            </li> 
+        <%}else{%>
+            <li class="nav-item">
+                <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+            </li>  
+            <li class="nav-item">
+                <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+            </li>   
+        <%}%>
+        
+  </ul>
+</div>
+
+</nav>
+</div>
+
+
 <style>
-    table,td,th {
-        border: 2px solid black;
+    .container {
+        text-align: center;
+        margin: 4rem auto;
     }
+    tr {
+        border: 1px solid rgb(179, 174, 174);
+    }
+    table {
+        border: 2px solid black;
+        margin: 4rem auto 8rem auto;
+    }
+    
+    th {
+        border-right: 2px solid black;
+        text-align: left;
+    }
+    th,td {
+        padding: 0.8rem 8rem;
+        border: 1.5px solid rgb(187, 180, 180);
+    }
+    th {
+        padding-left: 2rem;
+    }
+    
 </style>
 
-<ul> 
-    <li><a href="/view">View Account Details</a></li>
-    <li><a onclick="logout()" href="/login">Logout</a></li>
-</ul>
- 
-<table>
-    <tr>
-        <th>Name:</th>
-        <td><%= record.name %></td>
-    </tr>
-    <tr>
-        <th>Address:</th>
-        <td><%= record.address %></td>
-    </tr>
-    <tr>
-        <th>Mobile No.1:</th>
-        <td><%= record.Mobileno1 %></td>
-    </tr>
-    <tr>
-        <th>Mobile No.2:</th>
-        <td><%= record.Mobileno2 %></td>
-    </tr>
-    <tr>
-        <th>Phone No.:</th>
-        <td><%= record.Phoneno %></td>
-    </tr>
-    <tr>
-        <th>Gender:</th>
-        <td><%= record.gender %></td>
-    </tr>
-    <tr>
-        <th>Email ID:</th>
-        <td><%= record.email %></td>
-    </tr>
-</table> 
+<div class="container">
+    <div style="margin-top:4.5rem">
+        <h2>Customer Personal Details</h2>
+    </div>
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td><%= record.name %></td>
+        </tr>
+        <%if(record.address != null) {%>
+            <tr>
+                <th>Address:</th>
+                <td><%= record.address %></td>
+            </tr>
+        <%}%>
+        <%if(record.Mobileno1 != null) {%>
+            <tr>
+                <th>Mobile No.1:</th>
+                <td><%= record.Mobileno1 %></td>
+            </tr>
+        <%}%>
+        <%if(record.Mobileno2 != null) {%>
+            <tr>
+                <th>Mobile No.2:</th>
+                <td><%= record.Mobileno2 %></td>
+            </tr>
+        <%}%>
+        <%if(record.Phoneno != null) {%>
+            <tr>
+                <th>Phone No.:</th>
+                <td><%= record.Phoneno %></td>
+            </tr>
+        <%}%>
+        <%if(record.gender != null) {%>
+            <tr>
+                <th>Gender:</th>
+                <td><%= record.gender %></td>
+            </tr>
+        <%}%>
+        <tr>
+            <th>Email ID:</th>
+            <td><%= record.email %></td>
+        </tr>
+    </table> 
+  </div>
 
-    
 
-<script>
-    function logout() { 
-        signal = 0; 
-    }
-</script>
 
 <%- include("partials/footer") %> 

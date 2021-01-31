@@ -1,10 +1,33 @@
 <%- include("partials/header") %>
 
-<a href="/">Home</a>
-<a href="/create_acc">Create Account</a>
-<a href="/transaction">Make Transaction</a>
-<a href="/signup">SignUp</a>
-<a href="/login">LogIn</a>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <%if(signal == 1) {%>
+            <li class="nav-item">
+                <a class="nav-link active" style="font-weight:400; font-size: 1.2rem;"><strong>Hi <%= record.name %>!</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout" style="font-weight:400; font-size: 1.2rem;">Logout</a>
+            </li>
+        <%}else{%>
+            <li class="nav-item">
+                <a class="nav-link active" href="/login" style="font-weight:400; font-size: 1.2rem;">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/signup" style="font-weight:400; font-size: 1.2rem;">Sign Up</a>
+            </li>
+        <%}%>
+
+  </ul>
+</div>
+
+</nav>
+</div>
+<div id="obshome"></div>
+<div class="container" style="text-align: center; margin: 11rem auto; border: 2px solid red; width: 30%; padding: 2rem;">
+    <div id="root"></div>
+</div>
+
 
 <%- include("partials/footer") %>
 
