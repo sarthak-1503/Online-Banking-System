@@ -1,7 +1,7 @@
-<%- include("partials/header",{id:id ? id:null}) %>
+<%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
 <script>
-    alert("Transaction Failed")
+    alert("Transaction Failed! Check your account balance.")
     window.location.replace("/");
 </script>
 

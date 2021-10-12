@@ -1,4 +1,4 @@
-<%- include("partials/header",{id:id ? id:null}) %>
+<%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
     <head>
         <link rel="stylesheet" href="/stylesheets/view.css">
@@ -7,6 +7,10 @@
     <div class="container">
         <div style="margin-top:4.5rem">
             <h2>Customer Transaction History</h2>
+        </div>
+        <div>
+            <h3>Account Balance : <%=Account.current_balance%></h3> 
+            <%console.log(Account.current_balance)%>
         </div>
         <%if(Account.transactions.length) {%>
             <table>
