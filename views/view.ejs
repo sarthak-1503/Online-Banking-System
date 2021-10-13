@@ -9,8 +9,7 @@
             <h2>Customer Transaction History</h2>
         </div>
         <div>
-            <h3>Account Balance : <%=Account.current_balance%></h3> 
-            <%console.log(Account.current_balance)%>
+            <h3>Account Balance : Rs. <%=Account.total_amount%></h3> 
         </div>
         <%if(Account.transactions.length) {%>
             <table>

@@ -10,7 +10,7 @@ let AccountsSchema = new mongoose.Schema({
     gender: String,
     email: String,
     account_no: Number,
-    current_balance: Number,
+    // current_balance: Number,
     password: String,
     total_amount: Number,
     transactions:[transactionSchema]

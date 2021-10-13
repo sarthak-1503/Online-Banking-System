@@ -51,7 +51,7 @@ router.get("/personaldetails", requireLogin, async (req, res) => {
   res.render("personaldetails", { id: req.session.user_id, record: record });
 });
 
-router.get("/view", async (req, res) => {
+router.get("/view", requireLogin, async (req, res) => {
   let record = await Accounts.findOne({ _id: req.session.user_id });
   let Account = record;
   res.render("view", {
