@@ -13,6 +13,14 @@ let AccountsSchema = new mongoose.Schema({
     // current_balance: Number,
     password: String,
     total_amount: Number,
+    otp: {
+        type: String,
+        default: ""
+    },
+    otpCount: {
+        type: Number,
+        default: 0
+    },
     transactions:[transactionSchema]
 });
 

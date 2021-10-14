@@ -34,4 +34,20 @@ router.get('/view', (req,res)=> {
     res.redirect('/account/view');
 });
 
+router.get('/login', (req,res)=> {
+    
+    res.redirect('/auth/login');
+});
+
+router.get('/signup', (req,res)=> {
+    
+    res.redirect('/auth/signup');
+});
+
+router.get('/login/validate/:id', (req,res)=> {
+    let id = req.params.id;
+    let url = '/auth/login/validate' + JSON.stringify(id);
+    res.redirect(url);
+});
+
 module.exports = router;

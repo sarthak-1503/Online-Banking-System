@@ -6,7 +6,9 @@
 
     <%if(lastUrl == '/auth/signup') {%>
         <script>
-            alert('Please login now!');
+            $(document).ready(()=> {
+                alert('Please login now!');
+            });
         </script>
     <%}%>
 
@@ -40,11 +42,11 @@
                             style="width: 50%; height: 3.5rem; margin-top: 0.8rem;">Log in</button>
                     </div>
 
-                    <div style="padding-right: 19rem; padding-left: 2.2rem; margin-top: 2rem;">
-                        <a href="/auth/signup" id="createacc" style="font-size: 1.2rem;">Create Account</a>
-                    </div>
-
             </form>
+
+            <div style="padding-right: 19rem; padding-left: 2.2rem; margin-top: 2rem;">
+                <a href="/auth/signup" id="createacc" style="font-size: 1.2rem;">Create Account</a>
+            </div>
         </div>
 
     </div>

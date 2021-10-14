@@ -36,32 +36,38 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <i class="fa fa-home nav-left" style="margin-right: 0.8rem; font-size: 2rem;" aria-hidden="true"
                         id="home" style="font-size: 2.2rem;" onclick="window.location.href='/'"></i>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item nav-left">
-                            <a class="nav-link active" href="/account/create_acc"
-                                style="font-weight:400; font-size: 1.2rem;">Open Bank Account</a>
-                        </li>
-                    </ul>
-                    <%if(id) {%>
+                    <%if(!id || !record.Mobileno1) {%>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item nav-left">
-                                <a class="nav-link active" href="/account/view"
-                                    style="font-weight:400; font-size: 1.2rem;">Account Details</a>
+                                <a class="nav-link active" href="/account/create_acc"
+                                    style="font-weight:400; font-size: 1.2rem;">Open Bank Account</a>
                             </li>
-                        </ul>
+                        </ul>    
+                    <%}%>
+                    <%if(id) {%>
+                        <%if(record.Mobileno1) {%>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item nav-left">
+                                    <a class="nav-link active" href="/account/view"
+                                        style="font-weight:400; font-size: 1.2rem;">Account Details</a>
+                                </li>
+                            </ul>  
+                        <%}%>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item nav-left">
                                 <a class="nav-link active" href="/account/personaldetails"
                                     style="font-weight:400; font-size: 1.2rem;">Personal Details</a>
                             </li>
                         </ul>
-                        <%}%>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item nav-left">
-                                    <a class="nav-link active" href="/account/transaction"
-                                        style="font-weight:400; font-size: 1.2rem;">Make Transaction</a>
-                                </li>
-                            </ul>
+                    <%}%>
+                    <%if((!id || (id && record.Mobileno1))) {%>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item nav-left">
+                                <a class="nav-link active" href="/account/transaction"
+                                    style="font-weight:400; font-size: 1.2rem;">Make Transaction</a>
+                            </li>
+                        </ul>    
+                    <%}%>
                 </div>
 
             </div>
