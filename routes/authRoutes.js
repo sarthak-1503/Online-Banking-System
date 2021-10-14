@@ -22,16 +22,18 @@ router.post("/login", async (req, res) => {
     let check = await bcrypt.compare(pass, record.password);
 
     if (check == true) {
-        let otp = sendOTP(record.email);
-        
-        Accounts.updateOne({_id : record._id},{$set : {otp : otp}}).then(r => {
-            console.log(r);
-        }).catch(err => {
-            console.log(err);
+      let otp = sendOTP(record.email);
+
+      Accounts.updateOne({ _id: record._id }, { $set: { otp: otp } })
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((err) => {
+          console.log(err);
         });
 
-        req.session.user_id = null;
-        let url = "/auth/login/validate/" + record._id;
+      req.session.user_id = null;
+      let url = "/auth/login/validate/" + record._id;
       res.redirect(url);
     } else {
       console.log("Wrong email or password!!");
@@ -40,54 +42,58 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/login/validate/:id", async(req, res) => {
-    
-    let id = req.params.id;
-    let record = await Accounts.findOne({_id : id});
-    record.otpCount++;
+router.get("/login/validate/:id", async (req, res) => {
+  let id = req.params.id;
+  let record = await Accounts.findOne({ _id: id });
+  record.otpCount++;
 
-    Accounts.updateOne({_id : id},{$set : {otpCount : record.otpCount % 4}}).then(r => {
-        console.log(r);
-    }).catch(err => {
-        console.log(err);
+  Accounts.updateOne({ _id: id }, { $set: { otpCount: record.otpCount % 4 } })
+    .then((r) => {
+      console.log(r);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 
-    if(record.otpCount > 3) {
-        res.render('otpAlert',{record, id : req.session.user_id});
-    } else {
-        let url = "/auth/login/validate/" + id;
-        res.render("otpValidate",{count : record.otpCount, id: req.session.user_id, record: record, url : url});
-    }
-
+  if (record.otpCount > 3) {
+    res.render("otpAlert", { record, id: req.session.user_id });
+  } else {
+    let url = "/auth/login/validate/" + id;
+    res.render("otpValidate", {
+      count: record.otpCount,
+      id: req.session.user_id,
+      record: record,
+      url: url,
+    });
+  }
 });
 
-router.post("/login/validate/:id", async(req, res) => {
+router.post("/login/validate/:id", async (req, res) => {
+  let otp = req.body.otp.toLocaleString();
+  let id = req.params.id;
+  let record = await Accounts.findOne({ _id: id });
 
-    let otp = req.body.otp.toLocaleString();
-    let id = req.params.id;
-    let record = await Accounts.findOne({_id : id});
+  if (otp == record.otp) {
+    Accounts.updateOne({ _id: id }, { $set: { otp: "", otpCount: 0 } })
+      .then((r) => {
+        console.log(r);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    if(otp == record.otp) {
-        Accounts.updateOne({_id : id},{$set : {otp : ""}}).then(r => {
-            console.log(r);
-        }).catch(err => {
-            console.log(err);
-        });
-        
-        console.log("LOGIN DONE!!");
-        // signal = 1;
-        // fromlogin = 0;
-        req.session.user_id = record._id;
-        // let url = req.session.returnto;
-        res.redirect('/');
-    } else {
-        console.log("Invalid OTP!");
-        req.session.user_id = null;
-        let url = "/auth/login/validate/" + record._id;
-        res.redirect(url);
-    }
-
-  
+    console.log("LOGIN DONE!!");
+    // signal = 1;
+    // fromlogin = 0;
+    req.session.user_id = record._id;
+    // let url = req.session.returnto;
+    res.redirect("/");
+  } else {
+    console.log("Invalid OTP!");
+    req.session.user_id = null;
+    let url = "/auth/login/validate/" + record._id;
+    res.redirect(url);
+  }
 });
 
 router.get("/signup", (req, res) => {
