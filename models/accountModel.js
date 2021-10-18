@@ -21,6 +21,10 @@ let AccountsSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    digitalSign: {
+        type: String, 
+        default: null
+    },
     transactions:[transactionSchema]
 });
 

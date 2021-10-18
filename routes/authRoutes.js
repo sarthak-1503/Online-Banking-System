@@ -15,7 +15,7 @@ router.post("/login", async (req, res) => {
   let record = await Accounts.findOne({ email: email });
 
   if (record == null) {
-    signal = 0;
+    // signal = 0;
     console.log("No account with this email exists!!");
     res.redirect("/auth/signup");
   } else {
@@ -83,10 +83,9 @@ router.post("/login/validate/:id", async (req, res) => {
       });
 
     console.log("LOGIN DONE!!");
-    // signal = 1;
-    // fromlogin = 0;
+
     req.session.user_id = record._id;
-    // let url = req.session.returnto;
+
     res.redirect("/");
   } else {
     console.log("Invalid OTP!");

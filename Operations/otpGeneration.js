@@ -21,7 +21,7 @@ module.exports = (email) => {
         from: process.env.EMAIL,
         to: email,
         subject: 'Verify Login',
-        text: otp.toLocaleString()
+        text: "New Login! Verify your account using this OTP: " + otp.toLocaleString()
     };
       
     mailTransporter.sendMail(mailDetails, function(err, data) {
