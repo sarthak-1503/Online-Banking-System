@@ -1,14 +1,5 @@
 <%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
-<%if(count > 1) {%>
-    <script>
-
-        $(document).ready(()=> {
-            alert("OTP sent! Check your registered mail.");
-        });
-        
-    </script>    
-<%}%>
 
 <div class="container" style="border: 2px solid black; margin: 3rem; text-align: center;">
 
@@ -32,13 +23,68 @@
             <div>
                 <button id="Submit" type="submit" class="btn btn-primary btn-sm"
                     style="margin-top: 0.6rem;">Verify</button>
+                <div id="timer"></div>
             </div>
-
-
         </form>
     </div>
 
 </div>
+
+<%if(count > 3) {%>
+    <script>
+        alert("OTP limit exceeded. Please try again after 15 minutes");
+        document.getElementById('Submit').disabled = true;
+
+        let timer = document.getElementById('timer');
+        let currTime = new Date();
+        currTime.setMinutes(14);
+        currTime.setSeconds(50);
+        
+        setInterval(() => {
+            let mins = currTime.getMinutes()
+            let secs = currTime.getSeconds()
+
+            if(mins < 10) {
+                mins = '0' + mins;
+            }
+
+            if(secs < 10) {
+                secs = '0' + secs;
+            }
+
+            
+            timer.innerHTML = '<p>' + mins + '' + ':'  + secs + '</p>'
+            currTime.setSeconds((currTime.getSeconds()+1)%60);
+            // (parseInt(secs)/10 == 0) ? '0' : ''
+            // (parseInt(mins)/10 == 0) ? 
+                
+            if(currTime.getSeconds() === 0)
+            {
+                currTime.setMinutes(currTime.getMinutes()+1);
+            }
+
+            if(currTime.getMinutes() === 15)
+            {
+                clearInterval();
+            }
+
+        }, 1000);
+
+        setTimeout(() => {
+            alert('Please login again!');
+            window.location.replace('/auth/login');
+        }, 10*1000);
+    </script>    
+<%} else if(count > 1) {%>
+    <script>
+
+        $(document).ready(()=> {
+            alert("OTP sent! Check your registered mail.");
+        });
+        
+    </script>    
+<%}%>
+
 
 <%- include("partials/footer") %>
 

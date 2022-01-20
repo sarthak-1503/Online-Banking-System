@@ -13,38 +13,32 @@
     <%}%>
 
 
-    <div class="container" style="border: 2px solid black;">
+    <div class="container" style="bottom: 2rem;">
 
-        <div style="font-size: 10rem;">
+        <div style="font-size: 10rem; margin: auto;">
             <i class="fas fa-user-circle" style="color: #007bff;"></i>
         </div>
 
-        <div style="text-align: center; margin: 1rem auto 2.5rem auto;">
-            <form action="/auth/login" method="POST">
+        <div class="container contain-form">
 
-                <div>
-                    <div style="text-align:center;">
-                        <input type="email" name="Email" placeholder="Email ID"
-                            style="width: 50%; height: 3rem; margin: 0.6rem auto;padding: 0.5rem;" required>
-                    </div>
+            <form action="/auth/login" method="POST" class="form-components">
+                <div class="form-group w-75">
+                  <input type="email" class="form-control" name="Email" placeholder="Email ID" required>
+                </div>
+                <div class="form-group w-75">
+                  <input type="password" class="form-control" placeholder="Password" name="p1"  minlength="8"
+                  maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$"
+                  title="Password must follow the criteria:
+                      1. atleast 8 characters long
+                      2. atleast 1 uppercase letter
+                      3. atleast 1 lowercase letter
+                      4. atleast 1 special character " required>
+                </div>
+                <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit</button>
+              </form>
 
-                    <div style="text-align:center; ">
-                        <input class="createPass" type="password" placeholder="Password" name="p1" minlength="8"
-                            maxlength="16" size="16" pattern="^(?=.{5,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$"
-                            title="Password must follow the criteria:
-                                1. atleast 8 characters long
-                                2. atleast 1 uppercase letter
-                                3. atleast 1 lowercase letter
-                                4. atleast 1 special character "
-                            style="width: 50%; height: 3rem; margin: 0.6 auto; padding: 0.5rem; " required>
-
-                        <button id="login" class="btn btn-primary btn-lg"
-                            style="width: 50%; height: 3.5rem; margin-top: 0.8rem;">Log in</button>
-                    </div>
-
-            </form>
-
-            <div style="padding-right: 19rem; padding-left: 2.2rem; margin-top: 2rem;">
+            <div class="createAccDiv">
+                <!-- padding-right: 19rem; padding-left: 2.2rem; margin-top: 2rem; -->
                 <a href="/auth/signup" id="createacc" style="font-size: 1.2rem;">Create Account</a>
             </div>
         </div>

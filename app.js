@@ -16,7 +16,7 @@ app.use(favicon('./public/images/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.use(session({ secret: "yes its secret" }));
-mongoose.connect("mongodb://localhost:27017/obsdb", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/obsdb-otpauth", { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/', homeRoutes)
 app.use('/auth', authRoutes);

@@ -1,8 +1,8 @@
 <%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
 <script>
-    alert("Invalid OTP! Login again.")
-    window.location.replace("/auth/login");
+    alert("OTP limit exceeded. Please try again after 15 minutes");
+    window.location.replace("/");
 </script>
 
 <%- include("partials/footer") %>

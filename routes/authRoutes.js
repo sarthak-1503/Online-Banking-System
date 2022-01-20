@@ -45,9 +45,15 @@ router.post("/login", async (req, res) => {
 router.get("/login/validate/:id", async (req, res) => {
   let id = req.params.id;
   let record = await Accounts.findOne({ _id: id });
+
+  if(record.otpCount > 3)
+  {
+    record.otpCount = 0;
+  }
+
   record.otpCount++;
 
-  Accounts.updateOne({ _id: id }, { $set: { otpCount: record.otpCount % 4 } })
+  Accounts.updateOne({ _id: id }, { $set: { otpCount: record.otpCount  } })
     .then((r) => {
       console.log(r);
     })
@@ -55,9 +61,6 @@ router.get("/login/validate/:id", async (req, res) => {
       console.log(err);
     });
 
-  if (record.otpCount > 3) {
-    res.render("otpAlert", { record, id: req.session.user_id });
-  } else {
     let url = "/auth/login/validate/" + id;
     res.render("otpValidate", {
       count: record.otpCount,
@@ -65,7 +68,12 @@ router.get("/login/validate/:id", async (req, res) => {
       record: record,
       url: url,
     });
-  }
+
+  // if (record.otpCount > 3) {
+  //   res.render("otpAlert", { record, id: req.session.user_id });
+  // } else {
+    
+  // }
 });
 
 router.post("/login/validate/:id", async (req, res) => {

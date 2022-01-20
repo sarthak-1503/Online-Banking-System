@@ -1,31 +1,34 @@
 .container {
-    width: 50%;
+    width: 75%;
     text-align: center !important;
-    margin: 2.8rem auto;
-    padding-top: 0.8rem;
-    padding-bottom: 0rem;
+    margin: 1rem auto !important;
 }
 
-#signup:hover {
-   border: 3px solid#dc3545;
-   background-color: white;
-   color: #dc3545;
-   font-weight: bold;
+.contain-form {
+    padding: 0.6rem !important;
 }
 
-#createacc:hover {
-    text-decoration: none;
-    color: blue;
+.form-group {
+    margin: auto  !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+    height: 3rem !important;
 }
 
-#createacc:visited {
-    text-decoration: none;
-    color: red;
+.form-control {
+    font-size: 1.2rem !important;
+    padding: 0.8rem !important;
 }
 
-div#user-icon {
-    text-align: center;
-    margin: auto;
-    padding: auto;
-    width: 80%;
+
+#submit {
+    width: 75%;
+    margin: 1.5rem auto;
+}
+
+#submit:hover {
+    color: #bb2d3b;
+    font-weight: 900;
+    background-color: white;
+    border: 4px solid #bb2d3b;
 }

@@ -2,43 +2,35 @@
     background: #1A73E8;
 }
 
-#navlogout:focus {
-    outline: none;
+#navbar-div {
+    width: 100%;
+    left: 0;
+    right: 0;
 }
 
-#navlogout {
-    border: none;
-    background: #1A73E8;
+.navbar-toggler {
+    margin: 0.5rem !important;
 }
 
-#backicon {
-    background-color: #1A73E8;
-    background-size: 100%;
+.navbar-collapse {
+    font-size: 0.3rem !important;
 }
 
-#back {
-    color: white;
-    margin-left: 0.7rem;
-    margin-bottom: 0.6rem;
+.home-div {
+    text-align: center;
 }
 
 #home {
     color: white;
+    margin: auto !important;
 }
 
 #home:hover {
     cursor: pointer;
-    color: yellow;
 }
 
 .nav-link {
     color: white;
-    float: left;
-}
-
-.nav-left {
-    margin-right: 0.8rem;
-    margin-left: 0.5rem;
 }
 
 .body {
@@ -47,4 +39,21 @@
 
 ul {
     margin: 0;
+}
+
+.nav-item {
+    padding: 0.8rem !important;
+}
+
+.nav-left:hover {
+    background-color: blueviolet;
+    /* color: yellow !important; */
+}
+
+/* .mr-auto {
+    text-align: right !important;
+} */
+
+.auth {
+    text-align: right !important;
 }
