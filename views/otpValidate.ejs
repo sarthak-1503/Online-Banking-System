@@ -1,31 +1,29 @@
 <%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
+<head>
+    <link rel="stylesheet" href="/stylesheets/otpValidate.css">
+</head>
 
-<div class="container" style="border: 2px solid black; margin: 3rem; text-align: center;">
+<div class="container" style="bottom: 2rem;">
 
     <div id="user-icon" style="font-size: 10rem; text-align: center;">
         <i class="fas fa-key" style="color: gold;"></i>
     </div>
 
-    <div>
-        <h3>Enter OTP :</h3>
-    </div>
+    <div class="container contain-form w-70">
 
-    <div style="text-align: center; margin: 1rem auto 2.5rem auto;">
-
-        <form action="<%=url%>" method="POST">
-
-            <div style="text-align:center;">
-                <input type="text" name="otp" placeholder="Enter OTP"
-                    style="width: 50%; height: 3rem; margin: 0.6rem auto;padding: 0.5rem;" required>
+        <form action="<%=url%>" method="POST" class="form-components">
+            <div class="form-group">
+                <div class="text-left">
+                    <input type="text" class="form-control m-3" name="otp" id="otp" placeholder="Enter OTP" required autofocus>
+                </div>
+                <div id="timer" class="m-3 mt-auto mb-auto"></div>
             </div>
-
-            <div>
-                <button id="Submit" type="submit" class="btn btn-primary btn-sm"
-                    style="margin-top: 0.6rem;">Verify</button>
-                <div id="timer"></div>
+            <div class="text-center">
+                <button id="Submit" type="submit" class="btn btn-primary btn-lg"
+                    style="margin-top: 1.2rem;">Verify</button>
             </div>
-        </form>
+          </form>
     </div>
 
 </div>
@@ -37,8 +35,8 @@
 
         let timer = document.getElementById('timer');
         let currTime = new Date();
-        currTime.setMinutes(14);
-        currTime.setSeconds(50);
+        currTime.setMinutes(0);
+        currTime.setSeconds(10);
         
         setInterval(() => {
             let mins = currTime.getMinutes()
@@ -53,19 +51,19 @@
             }
 
             
-            timer.innerHTML = '<p>' + mins + '' + ':'  + secs + '</p>'
-            currTime.setSeconds((currTime.getSeconds()+1)%60);
+            timer.innerHTML = '<p>You can login again after ' + mins + '' + ':'  + secs + '</p>'
+            currTime.setSeconds((currTime.getSeconds()+59)%60);
             // (parseInt(secs)/10 == 0) ? '0' : ''
             // (parseInt(mins)/10 == 0) ? 
-                
-            if(currTime.getSeconds() === 0)
-            {
-                currTime.setMinutes(currTime.getMinutes()+1);
-            }
 
-            if(currTime.getMinutes() === 15)
+            if(currTime.getMinutes() === 0 && currTime.getSeconds() === 1)
             {
                 clearInterval();
+            }
+
+            if(currTime.getSeconds() === 0)
+            {
+                currTime.setMinutes(currTime.getMinutes()-1);
             }
 
         }, 1000);
@@ -73,7 +71,7 @@
         setTimeout(() => {
             alert('Please login again!');
             window.location.replace('/auth/login');
-        }, 10*1000);
+        }, 10.5*1000 );
     </script>    
 <%} else if(count > 1) {%>
     <script>

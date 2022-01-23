@@ -1,0 +1,26 @@
+.container {
+    width: 70% !important;
+    text-align: center !important;
+    margin: 3.5rem auto !important;
+}
+
+.form-group {
+    margin: auto  !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+    height: 3rem !important;
+}
+
+.form-control {
+    font-size: 1.2rem !important;
+    padding: 1rem !important;
+}
+
+.text-left {
+    margin: 1.5rem auto !important;
+}
+
+#submit {
+    text-align: center !important;
+    margin: 2.5rem auto !important;
+}

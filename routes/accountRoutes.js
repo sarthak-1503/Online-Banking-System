@@ -2,7 +2,7 @@ let express = require("express");
 let router = express.Router();
 let Accounts = require("../models/accountModel");
 let requireLogin = require("../middlewares/AuthMiddleware");
-let java = require('java');
+let countrycodes = require('../CountryCodes.json');
 
 router.get("/transaction", requireLogin, async (req, res) => {
   let record = await Accounts.findOne({ _id: req.session.user_id });
@@ -11,7 +11,7 @@ router.get("/transaction", requireLogin, async (req, res) => {
 
 router.get("/create_acc", requireLogin, async (req, res) => {
   let record = await Accounts.findOne({ _id: req.session.user_id });
-  res.render("openaccount", { id: req.session.user_id, record: record });
+  res.render("openaccount", { id: req.session.user_id, record: record, codes: countrycodes });
 });
 
 router.post("/create_acc", async (req, res) => {

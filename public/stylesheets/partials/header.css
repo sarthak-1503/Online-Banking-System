@@ -1,3 +1,9 @@
+/* body {
+    margin: 0 !important;
+    height: 100% ;
+    overflow: hidden;
+} */
+
 .navbar {
     background: #1A73E8;
 }
@@ -42,7 +48,7 @@ ul {
 }
 
 .nav-item {
-    padding: 0.8rem !important;
+    padding: 1rem 1.2rem !important;
 }
 
 .nav-left:hover {
@@ -57,3 +63,30 @@ ul {
 .auth {
     text-align: right !important;
 }
+
+.btn {
+    width: 7.5rem !important;
+    height: 3.1rem !important;
+    /* font-size: 5rem !important; */
+}
+
+/* .login:hover {
+    color: #198754 !important;
+    font-weight: 900;
+    background-color: white;
+    border: 4px solid #198754;
+}
+
+.signup:hover {
+    color: #bb2d3b !important;
+    font-weight: 900;
+    background-color: white;
+    border: 4px solid #bb2d3b;
+}
+
+.logout:hover {
+    color: #6c757d !important;
+    font-weight: 900;
+    background-color: white;
+    border: 4px solid #6c757d;
+} */

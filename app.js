@@ -23,7 +23,7 @@ app.use('/auth', authRoutes);
 app.use('/account', accountRoutes);
 
 // let port = Math.floor(Math.random() * 2 + 1024);
-let port = 1025;
+let port = 1024;
 
 app.listen(port, () => {
     console.log(`The server is listening on ${port}`);

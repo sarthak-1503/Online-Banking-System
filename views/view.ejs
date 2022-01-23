@@ -1,52 +1,55 @@
 <%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
-
+<!-- 
     <head>
         <link rel="stylesheet" href="/stylesheets/view.css">
-    </head>
+    </head> -->
 
-    <div class="container">
-        <div style="margin-top:4.5rem">
-            <h2>Customer Transaction History</h2>
+    <div class="container mx-auto my-5">
+        <div class="mx-auto text-center my-3">
+            <h3 style="color: green;">Customer Transaction History</h3>
         </div>
-        <div>
-            <h3>Account Balance : Rs. <%=Account.total_amount%></h3> 
+        <div class="mx-auto text-center my-3">
+            <h3>Account Balance : Rs. <span style="color: red;">
+                    <%=Account.total_amount%>
+                </span></h3>
         </div>
         <%if(Account.transactions.length) {%>
-            <table>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Amount</th>
-                    <th>Type of Transaction</th>
-                    <th>Date and Time</th>
-                </tr>
-
-
-                <%var i,j,count=0;%>
-
-                <%for(j=0;j<Account.transactions.length; j++){%>
+            <table class="w-75 mx-auto text-center my-3">
+                <thead class="thead-dark">
                     <tr>
-                        <td>
-                            <%count=count+1%>
-                                <%=count%>
-                        </td>
-                        <td>
-                            <%=Account.transactions[j].amount%>
-                        </td>
-                        <td>
-                            <%=Account.transactions[j].typeOftransac%>
-                        </td>
-                        <td>
-                            <%var day=Account.transactions[j].dateANDtime.getDate()%>
-                                <%var month=Account.transactions[j].dateANDtime.getMonth()%>
-                                    <%var year=Account.transactions[j].dateANDtime.getFullYear()%>
-                                        <%=day + "-" + month + "-" + year%>
-                        </td>
+                        <th scope="col">S.No.</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Type of Transaction</th>
+                        <th scope="col">Date and Time</th>
                     </tr>
-                    <%}%>
+                </thead>
+                <tbody>
+                    <%for(j=0;j<Account.transactions.length; j++){%>
+                        <tr>
+                            <th scope="row">
+                                <%=(j+1)%>
+                            </th>
+                            <td>
+                                <%=Account.transactions[j].amount%>
+                            </td>
+                            <td>
+                                <%=Account.transactions[j].typeOftransac%>
+                            </td>
+                            <td>
+                                <%var day=Account.transactions[j].dateANDtime.getDate()%>
+                                <%var month=Account.transactions[j].dateANDtime.getMonth()%>
+                                <%var year=Account.transactions[j].dateANDtime.getFullYear()%>
+                                <%let hours = Account.transactions[j].dateANDtime.getHours() %>
+                                <%let minutes = Account.transactions[j].dateANDtime.getMinutes() %>
+                                <%=day + "-" + month + "-" + year + " " + hours + ":" + minutes %>
+                            </td>
+                        </tr>
+                </tbody>
             </table>
-            <%} else {%>
-                <h4 style="color: green; margin: 5rem auto;">No transaction history found!!</h4>
             <%}%>
+                <%} else {%>
+                    <h4 style="color: green; margin: 5rem auto;">No transaction history found!!</h4>
+                    <%}%>
     </div>
 
     <%- include("partials/footer") %>
