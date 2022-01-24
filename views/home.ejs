@@ -1,9 +1,158 @@
 <%- include("partials/header",{id:id ? id:null, record: record ? record : null}) %>
 
-<div class="container" style="text-align: center; width: 100%; margin: auto;">
-    <img src="/images/Sample.jpg" alt="Reserve Bank of India" style="margin: 12% auto; text-align: center; width: 70%;">
-</div>
+    <style>
+        body {
+            overflow: visible !important;
+        }
 
+        .far:hover {
+            cursor: pointer !important;
+        }
 
-<%- include("partials/footer") %>
+        .checkout {
+            text-decoration: none !important;
+        }
+    </style>
 
+    <div class="container w-100 mx-auto my-3 b-0 x-auto">
+        <div class="my-5 text-left h5">
+            <%=totalResults + ' results displayed.'%>
+        </div>
+        <% for(let i=2;i<news.length - (news.length)%3;i+=3) {%>
+            <div class="row text-center mx-auto my-4 py-3">
+                <div class="col-4 mx-auto">
+                    <div class="card mx-auto h-100 position-relative pb-5" style="width: 22rem;">
+                        <img class="card-img-top" src="<%=news[i-2].urlToImage%>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=news[i-2].title%></h5>
+                            <p class="card-text"><%=news[i-2].publishedAt.substring(0,10) + ' ' + news[i].publishedAt.substring(11,16) %></p>
+                            <p class="card-text text-sm-left"><%=news[i-2].description%></p>
+                        </div>
+                        <div class="card-body mx-auto w-100 position-absolute bottom-0">
+                            <!-- <a href="#" class="card-link">Card link</a> -->
+                           <div class="row">
+                            <div class="col-6">
+                                <i class="far fa-copy" id='<%=(i-2)%>' class='card-link' style="font-size: 2.5vh" onclick="copyToClipboard(this.id)"></i>
+                            </div>
+                            <div class="col-6">
+                                <a href="<%=news[i-2].url%>" id='<%="checkout-" + (i-2)%>' class="card-link checkout" target="_blank">Checkout</a>
+                            </div>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 mx-auto">
+                    <div class="card mx-auto h-100 position-relative pb-5" style="width: 22rem;">
+                        <img class="card-img-top" src="<%=news[i-1].urlToImage%>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=news[i-1].title%></h5>
+                            <p class="card-text"><%=news[i-1].publishedAt.substring(0,10) + ' ' + news[i].publishedAt.substring(11,16) %></p>
+                            <p class="card-text text-sm-left"><%=news[i-1].description%></p>
+                        </div>
+                        <div class="card-body mx-auto w-100 position-absolute bottom-0">
+                            <!-- <a href="#" class="card-link">Card link</a> -->
+                            <div class="row">
+                                <div class="col-6">
+                                <i class="far fa-copy" id='<%=(i-1)%>' class='card-link' style="font-size: 2.5vh" onclick="copyToClipboard(this.id)"></i>
+                            </div>
+                            <div class="col-6">
+                                <a href="<%=news[i-1].url%>" id='<%="checkout-" + (i-1)%>' class="card-link checkout" target="_blank">Checkout</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 mx-auto">
+                    <div class="card mx-auto h-100 position-relative pb-5" style="width: 22rem;">
+                        <img class="card-img-top" src="<%=news[i].urlToImage%>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=news[i].title%></h5>
+                            <p class="card-text"><%=news[i].publishedAt.substring(0,10) + ' ' + news[i].publishedAt.substring(11,16) %></p>
+                            <p class="card-text text-sm-left"><%=news[i].description%></p>
+                        </div>
+                        <div class="card-body mx-auto w-100 position-absolute bottom-0">
+                            <!-- <a href="#" class="card-link">Card link</a> -->
+                            <div class="row">
+                                <div class="col-6">
+                                <i class="far fa-copy" id='<%=(i)%>' class='card-link' style="font-size: 2.5vh" onclick="copyToClipboard(this.id)"></i>
+                            </div>
+                            <div class="col-6">
+                                <a href="<%=news[i].url%>" id='<%="checkout-" + (i)%>' class="card-link checkout" target="_blank">Checkout</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%} %>
+            
+            <div class="row text-center mx-auto my-4 py-3">
+                <% for(let i=0;i<3; i++) {%>
+                    <%if(i < news.length % 3) {%>
+                        <div class="col-4 mx-auto">
+                            <div class="card mx-auto h-100 position-relative pb-5" style="width: 22rem;">
+                                <img class="card-img-top" src="<%=news[i].urlToImage%>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=news[i].title%></h5>
+                                    <p class="card-text"><%=news[i].publishedAt.substring(0,10) + ' ' + news[i].publishedAt.substring(11,16) %></p>
+                                    <p class="card-text text-sm-left"><%=news[i].description%></p>
+                                </div>
+                                <div class="card-body mx-auto w-100 position-absolute bottom-0">
+                                    <!-- <a href="#" class="card-link">Card link</a> -->
+                                    <div class="row">
+                                        <div class="col-6">
+                                        <i class="far fa-copy" id='<%=(i + news.length - news.length % 3)%>' class='card-link' style="font-size: 2.5vh" onclick="copyToClipboard(this.id)"></i>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="<%=news[i].url%>" id='<%="checkout-" + (i+ news.length - news.length % 3)%>' class="card-link checkout" target="_blank">Checkout</a>
+                                    </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    <%} else {%>
+                        <div class="col-4 mx-auto"></div>     
+                    <%}%>
+                <%} %>
+            </div>
+    </div>
+
+    <script>
+        let copyToClipboard = async(id) => {
+            // let checkout = document.getElementsByClassName('checkout');
+            // navigator.clipboard.writeText(e.target.href);
+            // e = e || window.event
+            // var target = e.target || e.srcElement;
+            // console.log(target)
+
+            // let copyIcon = target.parentElement.nodeName;
+            // copyIcon.innerHTML = '<div>Text copied!</div>'
+
+            // setTimeout(() => {
+            //     copyIcon.innerHTML = '';
+            // }, 500);
+
+            // var range = document.createRange();
+            // let oldvalue = document.getElementById(id).innerHTML;
+            // let targetElement = document.getElementById('checkout-' + id)
+            let targetElement = $('#checkout-' + id)
+            targetElement.select();
+            console.log(targetElement);
+
+            // // range.selectNode(document.getElementById(id));
+            // window.getSelection().removeAllRanges(); 
+            // window.getSelection().addRange(range.href); 
+            // document.execCommand("copy");
+            navigator.clipboard.writeText((targetElement.href)).then(()=> {
+                console.log('text copied!');
+            }).catch(err=> {
+                console.log('Error: ' + err);
+            });
+            // console.log(navigator.clipboard.readText())
+            // window.getSelection().removeAllRanges();
+            // document.getElementById(id).innerHTML = "Text Copied";
+            // setTimeout(function(){document.getElementById(id).innerHTML = oldvalue }, 1000);
+        }
+    </script>
+
+    <%- include("partials/footer") %>

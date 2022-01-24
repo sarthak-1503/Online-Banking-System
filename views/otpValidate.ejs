@@ -17,8 +17,8 @@
                 <div class="text-left">
                     <input type="text" class="form-control m-3" name="otp" id="otp" placeholder="Enter OTP" required autofocus>
                 </div>
-                <div id="timer" class="m-3 mt-auto mb-auto"></div>
             </div>
+            <div id="timer" class="m-3 mx-auto my-3"></div>
             <div class="text-center">
                 <button id="Submit" type="submit" class="btn btn-primary btn-lg"
                     style="margin-top: 1.2rem;">Verify</button>
@@ -53,11 +53,11 @@
             
             timer.innerHTML = '<p>You can login again after ' + mins + '' + ':'  + secs + '</p>'
             currTime.setSeconds((currTime.getSeconds()+59)%60);
-            // (parseInt(secs)/10 == 0) ? '0' : ''
-            // (parseInt(mins)/10 == 0) ? 
 
             if(currTime.getMinutes() === 0 && currTime.getSeconds() === 1)
             {
+                currTime.setMinutes(0);
+                currTime.setSeconds(0);
                 clearInterval();
             }
 

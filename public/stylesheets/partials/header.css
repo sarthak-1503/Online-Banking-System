@@ -1,8 +1,8 @@
-/* body {
+body {
     margin: 0 !important;
     height: 100% ;
     overflow: hidden;
-} */
+}
 
 .navbar {
     background: #1A73E8;
@@ -56,10 +56,6 @@ ul {
     /* color: yellow !important; */
 }
 
-/* .mr-auto {
-    text-align: right !important;
-} */
-
 .auth {
     text-align: right !important;
 }
@@ -70,23 +66,7 @@ ul {
     /* font-size: 5rem !important; */
 }
 
-/* .login:hover {
-    color: #198754 !important;
-    font-weight: 900;
-    background-color: white;
-    border: 4px solid #198754;
+.tabstatus {
+    background-color: 'white' !important;
+    color: #1A73E8 !important;
 }
-
-.signup:hover {
-    color: #bb2d3b !important;
-    font-weight: 900;
-    background-color: white;
-    border: 4px solid #bb2d3b;
-}
-
-.logout:hover {
-    color: #6c757d !important;
-    font-weight: 900;
-    background-color: white;
-    border: 4px solid #6c757d;
-} */

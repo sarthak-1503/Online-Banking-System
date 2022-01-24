@@ -1,148 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/stylesheets/partials/header.css" />
-    <link rel="icon" type="image/png" href="/images/favicon.ico" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script
-      src="https://kit.fontawesome.com/2635296004.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/stylesheets/partials/header.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.ico" />
 
-    <base href="/" />
+  <script src="https://kit.fontawesome.com/2635296004.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <title>Online Banking System</title>
-  </head>
+  <base href="/" />
 
-  <body>
-    <div style="margin: 1rem; margin-left: 1.5rem">
-      <a href="/"
-        ><img src="/images/logo.png" style="width: 10%; height: 6.4%" />
-      </a>
-    </div>
+  <title>Online Banking System</title>
+</head>
 
-    <div id="navbar-div">
-      <nav class="navbar navbar-expand-lg w-100 navbar-dark p-0">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<body>
+  <div style="margin: 1rem; margin-left: 1.5rem">
+    <a href="/"><img src="/images/logo.png" style="width: 10%; height: 6.4%" />
+    </a>
+  </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto p-0">
-            <li class="nav-item nav-left home-div">
-              <i
-                class="fa fa-home nav-left"
-                style="margin-right: 0.8rem; font-size: 2rem"
-                aria-hidden="true"
-                id="home"
-                style="font-size: 2.2rem"
-                onclick="window.location.href='/'"
-              ></i>
-            </li>
-            <%if(!id || !record.Mobileno1) {%>
+  <div id="navbar-div">
+    <nav class="navbar navbar-expand-lg w-100 navbar-dark p-0">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto p-0">
+          <li class="nav-item nav-left home-div">
+            <i class="fa fa-home nav-left" style="margin-right: 0.8rem; font-size: 2rem" aria-hidden="true" id="home"
+              style="font-size: 2.2rem" onclick="window.location.href='/'"></i>
+          </li>
+          <%if(!id || !record.Mobileno1) {%>
             <li class="nav-item nav-left" id="create_acc">
-              <a
-                class="nav-link active"
-                href="/account/create_acc"
-                style="font-weight: 400; font-size: 1.2rem"
-                >Open Bank Account</a
-              >
-            </li>
-            <%}%> <%if(id) {%> <%if(record.Mobileno1) {%>
-            <li class="nav-item nav-left" id="acc_det">
-              <a
-                class="nav-link active"
-                href="/account/view"
-                style="font-weight: 400; font-size: 1.2rem"
-                >Account Details</a
-              >
-            </li>
-            <!-- </ul>   -->
-            <%}%>
-            <li class="nav-item nav-left" id="personal_det">
-              <a
-                class="nav-link active"
-                href="/account/personaldetails"
-                style="font-weight: 400; font-size: 1.2rem"
-                >Personal Details</a
-              >
-            </li>
-            <%}%> <%if((!id || (id && record.Mobileno1))) {%>
-            <li class="nav-item nav-left" id="make_transac">
-              <a
-                class="nav-link active"
-                href="/account/transaction"
-                style="font-weight: 400; font-size: 1.2rem"
-                >Make Transaction</a
-              >
+              <a class="nav-link active" href="/account/create_acc" style="font-weight: 400; font-size: 1.2rem"
+                id="createAcc">Open Bank Account</a>
             </li>
             <%}%>
-          </ul>
-        </div>
+              <%if(id) {%>
+                <%if(record.Mobileno1) {%>
+                  <li class="nav-item nav-left" id="acc_det">
+                    <a class="nav-link active" href="/account/view" style="font-weight: 400; font-size: 1.2rem"
+                      id='accountDetails'>Account Details</a>
+                  </li>
+                  <!-- </ul>   -->
+                  <%}%>
+                    <li class="nav-item nav-left" id="personal_det">
+                      <a class="nav-link active" href="/account/personaldetails"
+                        style="font-weight: 400; font-size: 1.2rem" id="personalDetails">Personal Details</a>
+                    </li>
+                    <%}%>
+                      <%if((!id || (id && record.Mobileno1))) {%>
+                        <li class="nav-item nav-left" id="make_transac">
+                          <a class="nav-link active" href="/account/transaction"
+                            style="font-weight: 400; font-size: 1.2rem" id="makeTransac">Make Transaction</a>
+                        </li>
+                        <%}%>
+        </ul>
+      </div>
 
-        <div class="d-flex">
-          <ul class="navbar-nav m-auto">
-            <%if(id) {%>
+      <div class="d-flex">
+        <ul class="navbar-nav m-auto">
+          <%if(id) {%>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                style="font-weight: 400; font-size: 1.2rem"
-                ><strong>Hi <%= record.name %>!</strong></a
-              >
+              <a class="nav-link active" style="font-weight: 400; font-size: 1.2rem"><strong>Hi <%= record.name %>
+                    !</strong></a>
             </li>
             <li class="nav-item">
               <button class="btn btn-secondary btn-sm">
-                <a
-                  class="nav-link active"
-                  href="/auth/logout"
-                  style="font-weight: 400; font-size: 1.2rem"
-                  >Logout</a
-                >
+                <a class="nav-link active" href="/auth/logout" style="font-weight: 400; font-size: 1.2rem">Logout</a>
               </button>
             </li>
             <%}else{%>
-            <li class="nav-item">
-              <button class="btn btn-success btn-sm">
-                <a
-                  class="nav-link active"
-                  href="/auth/login"
-                  style="font-weight: 400; font-size: 1.2rem"
-                  >Login</a
-                >
-              </button>
-            </li>
-            <li class="nav-item">
-              <button class="btn btn-danger btn-sm">
-                <a
-                  class="nav-link active"
-                  href="/auth/signup"
-                  style="font-weight: 400; font-size: 1.2rem"
-                  >Sign Up</a
-                >
-              </button>
-            </li>
-            <%}%>
-          </ul>
-        </div>
-      </nav>
-    </div>
-  </body>
+              <li class="nav-item">
+                <button class="btn btn-success btn-sm">
+                  <a class="nav-link active" href="/auth/login" style="font-weight: 400; font-size: 1.2rem">Login</a>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-danger btn-sm">
+                  <a class="nav-link active" href="/auth/signup" style="font-weight: 400; font-size: 1.2rem">Sign Up</a>
+                </button>
+              </li>
+              <%}%>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    let createAcc = document.getElementById('createAcc');
+    let makeTransac = document.getElementById('makeTransac');
+    let personalDetails = document.getElementById('personalDetails');
+    let accountDetails = document.getElementById('accountDetails');
+    let home = document.getElementById('home');
+    let tabsList = [createAcc, makeTransac, personalDetails, accountDetails, home];
+
+    document.addEventListener('click', (e) => {
+      if (e.target === createAcc || e.target === makeTransac || e.target === personalDetails || e.target === accountDetails || e.target === home) {
+        for(let i = 0;i<tabsList.length;i++) {
+          if(e.target === tabsList[i]) {
+            e.target.classList.add('btn-outline-primary');
+          } else {
+            e.target.classList.remove('btn-outline-primary');
+          }
+        }
+      }
+    });
+
+  </script>
+
+</body>
+
 </html>

@@ -5,18 +5,18 @@
     </head> -->
 
     <div class="container mx-auto my-5">
-        <div class="mx-auto text-center my-3">
-            <h3 style="color: green;">Customer Transaction History</h3>
+        <div class="mx-auto text-center my-5">
+            <h3 style="color: green;">Transaction History</h3>
         </div>
-        <div class="mx-auto text-center my-3">
-            <h3>Account Balance : Rs. <span style="color: red;">
+        <div class="mx-auto text-center my-5">
+            <h4>Account Balance : Rs. <span style="color: red;">
                     <%=Account.total_amount%>
-                </span></h3>
+                </span></h4>
         </div>
         <%if(Account.transactions.length) {%>
-            <table class="w-75 mx-auto text-center my-3">
+            <table class="w-75 mx-auto text-center my-5 table">
                 <thead class="thead-dark">
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="col">S.No.</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Type of Transaction</th>
@@ -41,15 +41,17 @@
                                 <%var year=Account.transactions[j].dateANDtime.getFullYear()%>
                                 <%let hours = Account.transactions[j].dateANDtime.getHours() %>
                                 <%let minutes = Account.transactions[j].dateANDtime.getMinutes() %>
-                                <%=day + "-" + month + "-" + year + " " + hours + ":" + minutes %>
+                                <%=((parseInt(day) < 10) ? ('0' + day) : day) + "-" + ((parseInt(month+1) < 10) ? ('0' + (month+1)) : (month+1)) + "-" + year + " " + ((parseInt(hours) < 10) ? ('0' + hours) : hours) + ":" + ((parseInt(minutes) < 10) ? ('0' + minutes) : minutes) %>
                             </td>
                         </tr>
+                    <%}%>
                 </tbody>
             </table>
-            <%}%>
-                <%} else {%>
+            <%} else {%>
+                <div class="text-center px-auto py-2 mx-auto my-5">
                     <h4 style="color: green; margin: 5rem auto;">No transaction history found!!</h4>
-                    <%}%>
+                </div>
+                <%}%>
     </div>
 
     <%- include("partials/footer") %>

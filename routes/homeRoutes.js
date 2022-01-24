@@ -1,15 +1,24 @@
 let express = require('express');
 let router = express.Router();
 let Accounts = require('../models/accountModel');
+let Newsapi = require('newsapi');
+let newsapi = new Newsapi(process.env.API_KEY);
 
 router.get("/", async (req, res) => {
+    
+    let news = await newsapi.v2.everything({
+        q: 'business',
+        language: 'en',
+        sortBy: 'relevancy'
+      });
+
 
     if (req.session.user_id != null) {
         let record = await Accounts.findOne({ _id: req.session.user_id });
-        res.render("home", { id: req.session.user_id, record: record });
+        res.render("home", { id: req.session.user_id, record: record, news : news.articles, totalResults: news.totalResults });
     }
     else {
-        res.render("home", { id: req.session.user_id, record : null });
+        res.render("home", { id: req.session.user_id, record : null, news : news.articles, totalResults: news.articles.length });
     }
 
 });
