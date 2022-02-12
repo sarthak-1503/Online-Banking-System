@@ -1,0 +1,61 @@
+<%- include("partials/header",{id:id ? id:null}) %>
+
+  <head>
+    <script>
+      let name = '<%=name%>';
+    </script>
+    <script src="/face-api.js/dist/face-api.min.js"></script>
+    <script src="/javascripts/supportFunc.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"> </script>
+    <!-- <base href="/"> -->
+  </head>
+
+  <style>
+
+    canvas {
+      position: absolute;
+      text-align: center;
+      top: 0;
+      left: 0;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded',() => {
+      alert('In the VIDEO CAPTURE window, First press SPACEBAR to capture your face, then press ESC')
+    });
+
+    window.onkeyup = (e) => {
+      
+      alert('Upload the file saved on your Desktop with file name - <%=tempId%>.jpg')
+
+    }
+
+
+  </script>
+
+    <div class="container w-75 mx-auto my-5">
+      <div id="heading" class="mx-auto w-100">
+        <h3 class="text-success text-center">
+          Matching Face...
+        </h3>
+      </div>
+
+      <div class="row w-100 mx-auto my-3">
+        <div class="col mx-auto w-100">
+          <h4>Actual Image</h4>
+          <img src='data:image/jpg;base64,<%=chunk%>' id='actual' name='<%=name%>' style="max-width:15rem; max-height: 16rem;">
+        </div>
+        <div class="col mx-auto w-100" id="original">
+
+        </div>
+      </div>
+  
+      <div class="upload-file mx-auto my-3 text-center">
+        <input type="file" class="mx-auto text-center" id='capturedImage' >
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>

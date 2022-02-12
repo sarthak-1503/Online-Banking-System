@@ -12,6 +12,7 @@ let AccountsSchema = new mongoose.Schema({
     account_no: Number,
     password: String,
     total_amount: Number,
+    fileId: String,
     otp: {
         type: String,
         default: ""

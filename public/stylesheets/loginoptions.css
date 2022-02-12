@@ -1,0 +1,17 @@
+#submit {
+    font-size: large;
+    width: 50% !important;
+    height: 5rem !important;
+    margin: 4rem auto;
+}
+
+#submit:hover {
+    color: #6c757d;
+    font-weight: 900;
+    background-color: white;
+    border: 4px solid #6c757d;
+}
+
+#heading {
+    margin: 2rem auto;
+}

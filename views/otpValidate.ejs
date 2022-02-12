@@ -52,18 +52,22 @@
 
             
             timer.innerHTML = '<p>You can login again after ' + mins + '' + ':'  + secs + '</p>'
-            currTime.setSeconds((currTime.getSeconds()+59)%60);
+            
+            if(currTime.getSeconds() >= 1)
+            {
+                currTime.setSeconds((currTime.getSeconds()+59)%60);
+            }
 
-            if(currTime.getMinutes() === 0 && currTime.getSeconds() === 1)
+            if(currTime.getMinutes() >= 1 && currTime.getSeconds() === 0)
+            {
+                currTime.setMinutes((currTime.getMinutes()-1));
+            }
+
+            if(currTime.getMinutes() === 0 && currTime.getSeconds() === 0)
             {
                 currTime.setMinutes(0);
                 currTime.setSeconds(0);
                 clearInterval();
-            }
-
-            if(currTime.getSeconds() === 0)
-            {
-                currTime.setMinutes(currTime.getMinutes()-1);
             }
 
         }, 1000);
@@ -71,7 +75,7 @@
         setTimeout(() => {
             alert('Please login again!');
             window.location.replace('/auth/login');
-        }, 10.5*1000 );
+        }, 11*1000 );
     </script>    
 <%} else if(count > 1) {%>
     <script>

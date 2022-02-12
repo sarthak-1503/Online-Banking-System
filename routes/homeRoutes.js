@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
         sortBy: 'relevancy'
       });
 
-
     if (req.session.user_id != null) {
         let record = await Accounts.findOne({ _id: req.session.user_id });
         res.render("home", { id: req.session.user_id, record: record, news : news.articles, totalResults: news.totalResults });

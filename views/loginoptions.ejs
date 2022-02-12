@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+<head>
+    <link rel="stylesheet" href="/stylesheets/loginoptions.css">
+</head>
+
+<div class="container w-75 text-center my-5">
+    <div id="heading" class="text-center w-100 mx-auto">
+        <h2 class="text-dark">Verify it's you...</h2>
+    </div>
+    
+    <div class="w-100 mx-auto text-center">
+        <button class="btn btn-secondary btn-lg" id="submit" onclick="window.location.href='/auth/login/webcam-validate/<%=tempId%>'">
+            Login using Webcam Authentication
+        </button>
+    </div>
+    <div class="optional my-3">
+        <h2 class="text-dark">
+            OR
+        </h2>
+    </div>
+    <div class="w-100 mx-auto text-center">
+        <button class="btn btn-secondary btn-lg" id="submit" onclick="window.location.href='/auth/login/otpnotif/<%=tempId%>'">
+            Login using OTP on Gmail
+        </button>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

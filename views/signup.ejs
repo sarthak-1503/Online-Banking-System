@@ -13,8 +13,7 @@
 
         <div class="container contain-form">
 
-            <form onsubmit="return matchPasswords()" action="/auth/signup" method="POST">
-
+            <form onsubmit="return matchPasswords()" action="/auth/signup" method="POST" enctype="multipart/form-data">
                 <!-- <div> -->
                 <div class="form-group w-75">
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
@@ -40,6 +39,9 @@
                         3. atleast 1 lowercase letter
                         4. atleast 1 special character " required>
                   </div>
+                <div class="form-group w-75">
+                    <input type="file" name="file" class="form-control" required>
+                </div>
                 <button type="submit" id="submit" class="btn btn-danger btn-lg">Submit</button>
               </form>
         </div>
