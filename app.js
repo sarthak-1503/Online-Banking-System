@@ -19,10 +19,10 @@ let homeRoutes = require('./routes/homeRoutes')
 let loginRoutes = require('./routes/loginRoutes')
 
 app.set("view engine", "ejs");
-app.use(favicon('./public/images/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.use(session(sessionConfig));
+app.use(favicon('/images/favicon.ico'));
 // mongoose.connect("mongodb://localhost:27017/obsdb-otpauth", { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/', homeRoutes);
