@@ -1,4 +1,4 @@
-cv2
-sys
+cv2>=4.5.4-dev
+sys>=3.8.10
 os
-Path
+pathlib
