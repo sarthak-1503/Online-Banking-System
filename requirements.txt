@@ -2,7 +2,7 @@
 # sys
 # os
 # pathlib
-apturl>=0.5.2
+# apturl>=0.5.2
 attrs>=19.3.0
 backcall>=0.2.0
 backports.entry-points-selectable>=1.1.1
