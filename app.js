@@ -31,7 +31,7 @@ app.use('/auth/login',loginRoutes);
 app.use('/account', accountRoutes);
 
 // let port = Math.floor(Math.random() * 2 + 1024);
-let port = 1024;
+let port = process.env.PORT || 1024;
 
 app.listen(port, () => {
     console.log(`The server is listening on ${port}`);
