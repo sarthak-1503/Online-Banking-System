@@ -1,4 +1,4 @@
-cv2>=4.5.4
+opencv-python>=4.5.4
 sys>=3.8.10
 os
 pathlib
