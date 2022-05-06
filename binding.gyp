@@ -1,6 +1,6 @@
 {
     "targets": [{
         "target_name": "binding",
-        "sources": [ "/usr/local/bin/node" ]
+        "sources": [ "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Node.js" ]
     }]
 }
