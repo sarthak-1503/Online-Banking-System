@@ -29,7 +29,7 @@ while True:
         #     os.makedirs(str(Path.home()) + '/Desktop/' + sys.argv[2])
             
         img_name = sys.argv[1] + ".jpg"
-        path = str(Path.home()) + '/Desktop/'
+        path = str(Path.home()) + '\\Desktop\\'
         # + str(sys.argv[2])
 
         cv2.imwrite(os.path.join(path,img_name), frame)
